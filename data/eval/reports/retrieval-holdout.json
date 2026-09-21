@@ -1,0 +1,112 @@
+{
+  "generated_at": "2026-09-16T15:34:50.932161+00:00",
+  "status": "complete",
+  "locked_config": {
+    "mode": "hybrid",
+    "candidate_k": 50,
+    "max_chunks_per_job": 1,
+    "rrf_k": 20,
+    "vector_weight": 1.0,
+    "keyword_weight": 1.0
+  },
+  "answerable_questions": [
+    "skills-05",
+    "experience-05",
+    "comparison-05",
+    "filters-05"
+  ],
+  "refusal_questions": [
+    "filters-04"
+  ],
+  "summary": {
+    "recall_at_5": 0.75,
+    "recall_at_8": 0.75,
+    "mrr_at_8": 0.7083,
+    "graded_ndcg_at_8": 0.6389,
+    "filter_accuracy": 1.0
+  },
+  "gates": {
+    "recall_at_8": true,
+    "graded_ndcg_at_8": false,
+    "filter_accuracy": true
+  },
+  "passed": false,
+  "retrieval_rows": [
+    {
+      "id": "skills-05",
+      "retrieved_job_ids": [
+        "0c207e0a055c4bf8a98ed4e9ffa4716e",
+        "583d67c2fdcf4417bef21113441f6e52",
+        "a08cb8b411ba46eaa9cd05401c65d057",
+        "ac07809e2795409dad980e97eeb49281",
+        "a18cad1e69dd407a8f07a0ca18423904",
+        "4870bbb0ba9f4ea6b09985c91a48e871",
+        "972547ef4de3410fb8373d5b3c464802",
+        "659e62e8673e4c73acebcb858cd46e9d"
+      ],
+      "recall_at_5": 0.6666666666666666,
+      "recall_at_8": 0.6666666666666666,
+      "mrr_at_8": 1.0,
+      "graded_ndcg_at_8": 0.6713860725233042,
+      "filter_accuracy": 1.0
+    },
+    {
+      "id": "experience-05",
+      "retrieved_job_ids": [
+        "cf9eac7f63224154a7c6a6c6a3473026",
+        "0c207e0a055c4bf8a98ed4e9ffa4716e",
+        "ac07809e2795409dad980e97eeb49281",
+        "16889a8bc537494e933ccc41ddf91660",
+        "583d67c2fdcf4417bef21113441f6e52",
+        "a099b183a9c946b4856568ddbd650c66",
+        "0d7b659cd6a04a5aba8559275faa4735",
+        "ab43675a8aa043f6ad5da206fcfd3276"
+      ],
+      "recall_at_5": 1.0,
+      "recall_at_8": 1.0,
+      "mrr_at_8": 0.5,
+      "graded_ndcg_at_8": 0.6309297535714575,
+      "filter_accuracy": 1.0
+    },
+    {
+      "id": "comparison-05",
+      "retrieved_job_ids": [
+        "ac07809e2795409dad980e97eeb49281",
+        "659e62e8673e4c73acebcb858cd46e9d",
+        "e90995a7230e4fe188a0fbb8a35b52cf",
+        "d40fbb60a04f4d8f91239e0bf91f491f",
+        "16889a8bc537494e933ccc41ddf91660",
+        "ab43675a8aa043f6ad5da206fcfd3276",
+        "a08cb8b411ba46eaa9cd05401c65d057",
+        "583d67c2fdcf4417bef21113441f6e52"
+      ],
+      "recall_at_5": 1.0,
+      "recall_at_8": 1.0,
+      "mrr_at_8": 1.0,
+      "graded_ndcg_at_8": 0.9751957567060058,
+      "filter_accuracy": 1.0
+    },
+    {
+      "id": "filters-05",
+      "retrieved_job_ids": [
+        "a74fae4bb4da4d3c84ad4af0317f1b86",
+        "90fd8d2e90114009b1f1bb4a914eda8e",
+        "443fff2821044262a3d853f1d333aef8",
+        "229d593e8c76425c9d1ff9b3f972847c",
+        "af47d3c5290447d4bac19abb85468d23",
+        "1f888de308c24a88b3afc53ce9b747ec",
+        "85e4f3d061094c3d93001b823ed4ad36",
+        "bbfe96865d3d41679612a27954a315a9"
+      ],
+      "recall_at_5": 0.3333333333333333,
+      "recall_at_8": 0.3333333333333333,
+      "mrr_at_8": 0.3333333333333333,
+      "graded_ndcg_at_8": 0.2781491965442198,
+      "filter_accuracy": 1.0
+    }
+  ],
+  "refusal_evaluation": {
+    "cases": 1,
+    "note": "本阶段只确认人工拒答标签；DeepSeek 是否实际拒答将在答案评估阶段验证。"
+  }
+}

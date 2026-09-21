@@ -1,0 +1,1 @@
+"""Local JobSpy web application."""

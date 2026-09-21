@@ -1,0 +1,1231 @@
+{
+  "generated_at": "2026-09-17T05:00:42.915379+00:00",
+  "status": "complete",
+  "reranker_model": "BAAI/bge-reranker-v2-m3",
+  "reranker_device": "cpu",
+  "pool_k": 10,
+  "locked_config": {
+    "id": "hybrid-c50-m1-r20-vw1-kw1",
+    "mode": "hybrid",
+    "candidate_k": 50,
+    "max_chunks_per_job": 1,
+    "rrf_k": 20,
+    "vector_weight": 1.0,
+    "keyword_weight": 1.0
+  },
+  "calibration": {
+    "samples": 121,
+    "accuracy": 0.595,
+    "macro_f1": 0.4394,
+    "disagreements": 49,
+    "thresholds": [
+      0.301700621843338,
+      0.43139731884002686
+    ],
+    "method": "development human judgments, job-level max chunk score, macro F1 over grades 0/1/2"
+  },
+  "runtime_ms": 321663.97,
+  "development": {
+    "baseline": {
+      "summary": {
+        "recall_at_5": 0.8444,
+        "recall_at_8": 0.95,
+        "mrr_at_8": 1.0,
+        "graded_ndcg_at_8": 0.9518
+      },
+      "rows": [
+        {
+          "id": "skills-01",
+          "recall_at_5": 0.4,
+          "recall_at_8": 0.7,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.8179497907159997
+        },
+        {
+          "id": "skills-02",
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 1.0
+        },
+        {
+          "id": "experience-03",
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 1.0
+        },
+        {
+          "id": "comparison-01",
+          "recall_at_5": 0.6666666666666666,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.9733360964168419
+        },
+        {
+          "id": "filters-01",
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 1.0
+        },
+        {
+          "id": "filters-03",
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.9197207891481876
+        }
+      ]
+    },
+    "reranked": {
+      "summary": {
+        "recall_at_5": 0.5389,
+        "recall_at_8": 0.8222,
+        "mrr_at_8": 0.6944,
+        "graded_ndcg_at_8": 0.6404
+      },
+      "rows": [
+        {
+          "id": "skills-01",
+          "rerank_ms": 0.03,
+          "recall_at_5": 0.4,
+          "recall_at_8": 0.6,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.7340328894177107
+        },
+        {
+          "id": "skills-02",
+          "rerank_ms": 0.02,
+          "recall_at_5": 0.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.16666666666666666,
+          "graded_ndcg_at_8": 0.411833840435435
+        },
+        {
+          "id": "experience-03",
+          "rerank_ms": 0.02,
+          "recall_at_5": 0.5,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.5912352048230277
+        },
+        {
+          "id": "comparison-01",
+          "rerank_ms": 0.02,
+          "recall_at_5": 0.3333333333333333,
+          "recall_at_8": 0.3333333333333333,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.35098520806348704
+        },
+        {
+          "id": "filters-01",
+          "rerank_ms": 0.02,
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.8772153153380493
+        },
+        {
+          "id": "filters-03",
+          "rerank_ms": 0.02,
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.8772153153380493
+        }
+      ]
+    },
+    "candidate_pool_coverage": 1.0,
+    "coverage_rows": [
+      {
+        "id": "skills-01",
+        "relevant_jobs": [
+          "ac07809e2795409dad980e97eeb49281",
+          "583d67c2fdcf4417bef21113441f6e52",
+          "a08cb8b411ba46eaa9cd05401c65d057",
+          "9185abe2554e47acab54067a3d8f1061",
+          "8cf2df484a43484ba93d3f1b5695822b",
+          "73264a25d7d84344b88c770a27649eac",
+          "972547ef4de3410fb8373d5b3c464802",
+          "287b786ce79a4acfa96159381a8aebe1",
+          "659e62e8673e4c73acebcb858cd46e9d",
+          "a18cad1e69dd407a8f07a0ca18423904"
+        ],
+        "covered_by_pool": [
+          "ac07809e2795409dad980e97eeb49281",
+          "583d67c2fdcf4417bef21113441f6e52",
+          "a08cb8b411ba46eaa9cd05401c65d057",
+          "9185abe2554e47acab54067a3d8f1061",
+          "8cf2df484a43484ba93d3f1b5695822b",
+          "73264a25d7d84344b88c770a27649eac",
+          "972547ef4de3410fb8373d5b3c464802",
+          "287b786ce79a4acfa96159381a8aebe1",
+          "659e62e8673e4c73acebcb858cd46e9d",
+          "a18cad1e69dd407a8f07a0ca18423904"
+        ]
+      },
+      {
+        "id": "skills-02",
+        "relevant_jobs": [
+          "ac07809e2795409dad980e97eeb49281",
+          "9185abe2554e47acab54067a3d8f1061"
+        ],
+        "covered_by_pool": [
+          "ac07809e2795409dad980e97eeb49281",
+          "9185abe2554e47acab54067a3d8f1061"
+        ]
+      },
+      {
+        "id": "experience-03",
+        "relevant_jobs": [
+          "ae3c476bf8114f8ca0a02adad0ccd802",
+          "6f4f33aa727b47aaa36b1e0f3c0d004c"
+        ],
+        "covered_by_pool": [
+          "ae3c476bf8114f8ca0a02adad0ccd802",
+          "6f4f33aa727b47aaa36b1e0f3c0d004c"
+        ]
+      },
+      {
+        "id": "comparison-01",
+        "relevant_jobs": [
+          "6bbf66299d264051932ce2c8fcaeca87",
+          "e90995a7230e4fe188a0fbb8a35b52cf",
+          "3a1bd8b3b54249ad883fdb7d659c4d7e"
+        ],
+        "covered_by_pool": [
+          "6bbf66299d264051932ce2c8fcaeca87",
+          "e90995a7230e4fe188a0fbb8a35b52cf",
+          "3a1bd8b3b54249ad883fdb7d659c4d7e"
+        ]
+      },
+      {
+        "id": "filters-01",
+        "relevant_jobs": [
+          "ac07809e2795409dad980e97eeb49281",
+          "9185abe2554e47acab54067a3d8f1061"
+        ],
+        "covered_by_pool": [
+          "ac07809e2795409dad980e97eeb49281",
+          "9185abe2554e47acab54067a3d8f1061"
+        ]
+      },
+      {
+        "id": "filters-03",
+        "relevant_jobs": [
+          "ae3c476bf8114f8ca0a02adad0ccd802",
+          "91301a37c53d4f7ba57bb04f63492076"
+        ],
+        "covered_by_pool": [
+          "ae3c476bf8114f8ca0a02adad0ccd802",
+          "91301a37c53d4f7ba57bb04f63492076"
+        ]
+      }
+    ],
+    "disagreements": [
+      {
+        "id": "skills-01",
+        "job_id": "583d67c2fdcf4417bef21113441f6e52",
+        "chunk_id": 96,
+        "score": 0.9402284,
+        "predicted": 2,
+        "actual": 1,
+        "title": "Agentic Ai Software Development Engineer"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "87373e170d4c4bec93d20969859c3e28",
+        "chunk_id": 66,
+        "score": 0.46166316,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Information Technology - Senior Data Scientist (Advanced AI Track)"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "c0f677c33f734f8589d6169294a4d552",
+        "chunk_id": 115,
+        "score": 0.56419581,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Principal Scientist, Computing & Intelligence, IAIC"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "9185abe2554e47acab54067a3d8f1061",
+        "chunk_id": 92,
+        "score": 0.67872095,
+        "predicted": 2,
+        "actual": 1,
+        "title": "Engineering Manager – AI Engineering & LLM Systems"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+        "chunk_id": 580,
+        "score": 0.63778579,
+        "predicted": 2,
+        "actual": 0,
+        "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "54c786adaeeb4aa3b6f9330e234c8bc3",
+        "chunk_id": 511,
+        "score": 0.52947396,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Intern, Developer A.I"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "df014801759e40c49111962b44c2332a",
+        "chunk_id": 337,
+        "score": 0.89175904,
+        "predicted": 2,
+        "actual": 0,
+        "title": "AI Agent Algorithm Engineer Intern (Global E-Commerce, Conversational AI) - 2027 Start (PhD)"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "972547ef4de3410fb8373d5b3c464802",
+        "chunk_id": 18,
+        "score": 0.00283934,
+        "predicted": 0,
+        "actual": 1,
+        "title": "Senior Al Engineer, Large Language Model"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+        "chunk_id": 42,
+        "score": 0.54213393,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Senior AI Research Engineer (Generative AI)"
+      },
+      {
+        "id": "skills-01",
+        "job_id": "8bb2a4c35a004c52a6b31c97f209e5b2",
+        "chunk_id": 45,
+        "score": 0.69223559,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Algorithm Engineer - Global Live - LLM Strategy (Singapore)"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "9185abe2554e47acab54067a3d8f1061",
+        "chunk_id": 92,
+        "score": 0.21459232,
+        "predicted": 0,
+        "actual": 2,
+        "title": "Engineering Manager – AI Engineering & LLM Systems"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "f516efe5cbc546b19a4700b0779a1c70",
+        "chunk_id": 316,
+        "score": 0.94396436,
+        "predicted": 2,
+        "actual": 0,
+        "title": "LLM/Multimodal AI Engineer Intern (TikTok Search) - 2027 Start"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "a1039adb0894477d9ba49ca8fc55d763",
+        "chunk_id": 246,
+        "score": 0.31894976,
+        "predicted": 1,
+        "actual": 0,
+        "title": "[2027 H1 Term-time Internship] GenAI Engineering Intern"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "0b0a8c1caeb8419d8c8e93584ae68376",
+        "chunk_id": 249,
+        "score": 0.81368679,
+        "predicted": 2,
+        "actual": 0,
+        "title": "[Keppel Internship Programme 2027] Intern, Data/AI Engineering (Jan - May 2027)"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+        "chunk_id": 393,
+        "score": 0.98095953,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Intern, AI Engineer"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "a5fbd58f04244fb48f95fa56fa54c6f8",
+        "chunk_id": 565,
+        "score": 0.97523504,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Embedded AI Engineer Intern [IDA: 00051]"
+      },
+      {
+        "id": "skills-02",
+        "job_id": "788db75b2d0d4a19956172ec3dee5d09",
+        "chunk_id": 460,
+        "score": 0.95857823,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Generative AI Engineer Intern - SAP Singapore"
+      },
+      {
+        "id": "experience-03",
+        "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+        "chunk_id": 143,
+        "score": 0.0624504,
+        "predicted": 0,
+        "actual": 2,
+        "title": "Software Engineer Intern (Summer 2027)"
+      },
+      {
+        "id": "experience-03",
+        "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+        "chunk_id": 579,
+        "score": 0.74068534,
+        "predicted": 2,
+        "actual": 0,
+        "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+      },
+      {
+        "id": "experience-03",
+        "job_id": "a9f5415aa320479c9499838f51ea9573",
+        "chunk_id": 370,
+        "score": 0.50107616,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Software Engineer Intern"
+      },
+      {
+        "id": "experience-03",
+        "job_id": "bd485610d2ca455e863c1dae5c8964ee",
+        "chunk_id": 532,
+        "score": 0.43474296,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Software Engineer Intern"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "e90995a7230e4fe188a0fbb8a35b52cf",
+        "chunk_id": 20,
+        "score": 0.02852341,
+        "predicted": 0,
+        "actual": 2,
+        "title": "Research Scientist - AI"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+        "chunk_id": 579,
+        "score": 0.83209783,
+        "predicted": 2,
+        "actual": 0,
+        "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+        "chunk_id": 392,
+        "score": 0.53224099,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Intern, AI Engineer"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "d40fbb60a04f4d8f91239e0bf91f491f",
+        "chunk_id": 628,
+        "score": 0.54138541,
+        "predicted": 2,
+        "actual": 0,
+        "title": "AI Research Intern, Singapore"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "32d4d827ae7c449693180fbd179b23fa",
+        "chunk_id": 562,
+        "score": 0.35263014,
+        "predicted": 1,
+        "actual": 0,
+        "title": "AI Automation Engineer Intern [IDA:00054]"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "3a1bd8b3b54249ad883fdb7d659c4d7e",
+        "chunk_id": 100,
+        "score": 0.04564041,
+        "predicted": 0,
+        "actual": 1,
+        "title": "AI Research Scientist"
+      },
+      {
+        "id": "comparison-01",
+        "job_id": "870db6571b7a49c7a8ffea5f853eb214",
+        "chunk_id": 158,
+        "score": 0.32817411,
+        "predicted": 1,
+        "actual": 0,
+        "title": "Internship - Embedded AI Application Engineering"
+      },
+      {
+        "id": "filters-01",
+        "job_id": "9185abe2554e47acab54067a3d8f1061",
+        "chunk_id": 91,
+        "score": 0.40064847,
+        "predicted": 1,
+        "actual": 2,
+        "title": "Engineering Manager – AI Engineering & LLM Systems"
+      },
+      {
+        "id": "filters-01",
+        "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+        "chunk_id": 393,
+        "score": 0.63210279,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Intern, AI Engineer"
+      },
+      {
+        "id": "filters-01",
+        "job_id": "788db75b2d0d4a19956172ec3dee5d09",
+        "chunk_id": 460,
+        "score": 0.43139732,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Generative AI Engineer Intern - SAP Singapore"
+      },
+      {
+        "id": "filters-01",
+        "job_id": "a5fbd58f04244fb48f95fa56fa54c6f8",
+        "chunk_id": 565,
+        "score": 0.32465601,
+        "predicted": 1,
+        "actual": 0,
+        "title": "Embedded AI Engineer Intern [IDA: 00051]"
+      },
+      {
+        "id": "filters-03",
+        "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+        "chunk_id": 147,
+        "score": 0.00314624,
+        "predicted": 0,
+        "actual": 2,
+        "title": "Software Engineer Intern (Summer 2027)"
+      },
+      {
+        "id": "filters-03",
+        "job_id": "91301a37c53d4f7ba57bb04f63492076",
+        "chunk_id": 573,
+        "score": 0.00888723,
+        "predicted": 0,
+        "actual": 2,
+        "title": "[Uni - Jan till Jun 2027] GenAI Software Engineer Intern"
+      }
+    ]
+  },
+  "holdout": {
+    "baseline": {
+      "summary": {
+        "recall_at_5": 0.75,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.7083,
+        "graded_ndcg_at_8": 0.6389
+      },
+      "rows": [
+        {
+          "id": "skills-05",
+          "recall_at_5": 0.6666666666666666,
+          "recall_at_8": 0.6666666666666666,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.6713860725233042
+        },
+        {
+          "id": "experience-05",
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.6309297535714575
+        },
+        {
+          "id": "comparison-05",
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.9751957567060058
+        },
+        {
+          "id": "filters-05",
+          "recall_at_5": 0.3333333333333333,
+          "recall_at_8": 0.3333333333333333,
+          "mrr_at_8": 0.3333333333333333,
+          "graded_ndcg_at_8": 0.2781491965442198
+        }
+      ]
+    },
+    "reranked": {
+      "summary": {
+        "recall_at_5": 0.5417,
+        "recall_at_8": 0.6875,
+        "mrr_at_8": 0.4375,
+        "graded_ndcg_at_8": 0.4155
+      },
+      "rows": [
+        {
+          "id": "skills-05",
+          "rerank_ms": 0.03,
+          "recall_at_5": 0.3333333333333333,
+          "recall_at_8": 0.6666666666666666,
+          "mrr_at_8": 0.25,
+          "graded_ndcg_at_8": 0.36926780146675
+        },
+        {
+          "id": "experience-05",
+          "rerank_ms": 0.08,
+          "recall_at_5": 1.0,
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.6309297535714575
+        },
+        {
+          "id": "comparison-05",
+          "rerank_ms": 0.02,
+          "recall_at_5": 0.5,
+          "recall_at_8": 0.75,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.31081452494782025
+        },
+        {
+          "id": "filters-05",
+          "rerank_ms": 0.02,
+          "recall_at_5": 0.3333333333333333,
+          "recall_at_8": 0.3333333333333333,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.35098520806348704
+        }
+      ]
+    },
+    "candidate_pool_coverage": 0.8333,
+    "coverage_rows": [
+      {
+        "id": "skills-05",
+        "relevant_jobs": [
+          "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "ac07809e2795409dad980e97eeb49281",
+          "6bbf66299d264051932ce2c8fcaeca87"
+        ],
+        "covered_by_pool": [
+          "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "ac07809e2795409dad980e97eeb49281",
+          "6bbf66299d264051932ce2c8fcaeca87"
+        ]
+      },
+      {
+        "id": "experience-05",
+        "relevant_jobs": [
+          "0c207e0a055c4bf8a98ed4e9ffa4716e"
+        ],
+        "covered_by_pool": [
+          "0c207e0a055c4bf8a98ed4e9ffa4716e"
+        ]
+      },
+      {
+        "id": "comparison-05",
+        "relevant_jobs": [
+          "ac07809e2795409dad980e97eeb49281",
+          "659e62e8673e4c73acebcb858cd46e9d",
+          "d40fbb60a04f4d8f91239e0bf91f491f",
+          "16889a8bc537494e933ccc41ddf91660"
+        ],
+        "covered_by_pool": [
+          "ac07809e2795409dad980e97eeb49281",
+          "659e62e8673e4c73acebcb858cd46e9d",
+          "d40fbb60a04f4d8f91239e0bf91f491f",
+          "16889a8bc537494e933ccc41ddf91660"
+        ]
+      },
+      {
+        "id": "filters-05",
+        "relevant_jobs": [
+          "443fff2821044262a3d853f1d333aef8",
+          "7b65264dff6844e88db646064a361773",
+          "659e62e8673e4c73acebcb858cd46e9d"
+        ],
+        "covered_by_pool": [
+          "443fff2821044262a3d853f1d333aef8"
+        ]
+      }
+    ],
+    "disagreements": [
+      {
+        "id": "skills-05",
+        "job_id": "583d67c2fdcf4417bef21113441f6e52",
+        "chunk_id": 94,
+        "score": 0.916646,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Agentic Ai Software Development Engineer"
+      },
+      {
+        "id": "skills-05",
+        "job_id": "ac07809e2795409dad980e97eeb49281",
+        "chunk_id": 24,
+        "score": 0.2721267,
+        "predicted": 0,
+        "actual": 2,
+        "title": "AI Engineer"
+      },
+      {
+        "id": "skills-05",
+        "job_id": "a18cad1e69dd407a8f07a0ca18423904",
+        "chunk_id": 557,
+        "score": 0.8998763,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Agentic AI Intern (Hybrid) - Able to Commit 5 - 6 Months"
+      },
+      {
+        "id": "skills-05",
+        "job_id": "6d1bbabff1fa4b50aa4673520f7fb9c4",
+        "chunk_id": 623,
+        "score": 0.92559642,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Intern - AI Workflow & Agent Automation"
+      },
+      {
+        "id": "skills-05",
+        "job_id": "df014801759e40c49111962b44c2332a",
+        "chunk_id": 338,
+        "score": 0.32782346,
+        "predicted": 1,
+        "actual": 0,
+        "title": "AI Agent Algorithm Engineer Intern (Global E-Commerce, Conversational AI) - 2027 Start (PhD)"
+      },
+      {
+        "id": "skills-05",
+        "job_id": "72c60178160148aa9a021a11eb56ce16",
+        "chunk_id": 35,
+        "score": 0.32282749,
+        "predicted": 1,
+        "actual": 0,
+        "title": "Software Engineer, Content Safety, AI Transformation Enablement"
+      },
+      {
+        "id": "skills-05",
+        "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+        "chunk_id": 42,
+        "score": 0.63050061,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Senior AI Research Engineer (Generative AI)"
+      },
+      {
+        "id": "experience-05",
+        "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+        "chunk_id": 3,
+        "score": 0.10577553,
+        "predicted": 0,
+        "actual": 1,
+        "title": "AI Agent Engineer (LLM Applications / RAG / Agentic AI, Multiple Opportunities!)"
+      },
+      {
+        "id": "comparison-05",
+        "job_id": "ac07809e2795409dad980e97eeb49281",
+        "chunk_id": 24,
+        "score": 0.13718323,
+        "predicted": 0,
+        "actual": 2,
+        "title": "AI Engineer"
+      },
+      {
+        "id": "comparison-05",
+        "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+        "chunk_id": 25,
+        "score": 0.46929297,
+        "predicted": 2,
+        "actual": 1,
+        "title": "AI Research Scientist, Singapore"
+      },
+      {
+        "id": "comparison-05",
+        "job_id": "16889a8bc537494e933ccc41ddf91660",
+        "chunk_id": 11,
+        "score": 0.2585682,
+        "predicted": 0,
+        "actual": 1,
+        "title": "AI Application Engineer"
+      },
+      {
+        "id": "comparison-05",
+        "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+        "chunk_id": 580,
+        "score": 0.45227084,
+        "predicted": 2,
+        "actual": 0,
+        "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+      },
+      {
+        "id": "comparison-05",
+        "job_id": "583d67c2fdcf4417bef21113441f6e52",
+        "chunk_id": 96,
+        "score": 0.53869605,
+        "predicted": 2,
+        "actual": 0,
+        "title": "Agentic Ai Software Development Engineer"
+      },
+      {
+        "id": "filters-05",
+        "job_id": "443fff2821044262a3d853f1d333aef8",
+        "chunk_id": 446,
+        "score": 0.00266754,
+        "predicted": 0,
+        "actual": 2,
+        "title": "Research Intern"
+      }
+    ]
+  },
+  "disagreement_queue": [
+    {
+      "id": "skills-01",
+      "job_id": "583d67c2fdcf4417bef21113441f6e52",
+      "chunk_id": 96,
+      "score": 0.9402284,
+      "predicted": 2,
+      "actual": 1,
+      "title": "Agentic Ai Software Development Engineer"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "87373e170d4c4bec93d20969859c3e28",
+      "chunk_id": 66,
+      "score": 0.46166316,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Information Technology - Senior Data Scientist (Advanced AI Track)"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "c0f677c33f734f8589d6169294a4d552",
+      "chunk_id": 115,
+      "score": 0.56419581,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Principal Scientist, Computing & Intelligence, IAIC"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "9185abe2554e47acab54067a3d8f1061",
+      "chunk_id": 92,
+      "score": 0.67872095,
+      "predicted": 2,
+      "actual": 1,
+      "title": "Engineering Manager – AI Engineering & LLM Systems"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+      "chunk_id": 580,
+      "score": 0.63778579,
+      "predicted": 2,
+      "actual": 0,
+      "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "54c786adaeeb4aa3b6f9330e234c8bc3",
+      "chunk_id": 511,
+      "score": 0.52947396,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Intern, Developer A.I"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "df014801759e40c49111962b44c2332a",
+      "chunk_id": 337,
+      "score": 0.89175904,
+      "predicted": 2,
+      "actual": 0,
+      "title": "AI Agent Algorithm Engineer Intern (Global E-Commerce, Conversational AI) - 2027 Start (PhD)"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "972547ef4de3410fb8373d5b3c464802",
+      "chunk_id": 18,
+      "score": 0.00283934,
+      "predicted": 0,
+      "actual": 1,
+      "title": "Senior Al Engineer, Large Language Model"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+      "chunk_id": 42,
+      "score": 0.54213393,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Senior AI Research Engineer (Generative AI)"
+    },
+    {
+      "id": "skills-01",
+      "job_id": "8bb2a4c35a004c52a6b31c97f209e5b2",
+      "chunk_id": 45,
+      "score": 0.69223559,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Algorithm Engineer - Global Live - LLM Strategy (Singapore)"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "9185abe2554e47acab54067a3d8f1061",
+      "chunk_id": 92,
+      "score": 0.21459232,
+      "predicted": 0,
+      "actual": 2,
+      "title": "Engineering Manager – AI Engineering & LLM Systems"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "f516efe5cbc546b19a4700b0779a1c70",
+      "chunk_id": 316,
+      "score": 0.94396436,
+      "predicted": 2,
+      "actual": 0,
+      "title": "LLM/Multimodal AI Engineer Intern (TikTok Search) - 2027 Start"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "a1039adb0894477d9ba49ca8fc55d763",
+      "chunk_id": 246,
+      "score": 0.31894976,
+      "predicted": 1,
+      "actual": 0,
+      "title": "[2027 H1 Term-time Internship] GenAI Engineering Intern"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "0b0a8c1caeb8419d8c8e93584ae68376",
+      "chunk_id": 249,
+      "score": 0.81368679,
+      "predicted": 2,
+      "actual": 0,
+      "title": "[Keppel Internship Programme 2027] Intern, Data/AI Engineering (Jan - May 2027)"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+      "chunk_id": 393,
+      "score": 0.98095953,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Intern, AI Engineer"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "a5fbd58f04244fb48f95fa56fa54c6f8",
+      "chunk_id": 565,
+      "score": 0.97523504,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Embedded AI Engineer Intern [IDA: 00051]"
+    },
+    {
+      "id": "skills-02",
+      "job_id": "788db75b2d0d4a19956172ec3dee5d09",
+      "chunk_id": 460,
+      "score": 0.95857823,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Generative AI Engineer Intern - SAP Singapore"
+    },
+    {
+      "id": "experience-03",
+      "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+      "chunk_id": 143,
+      "score": 0.0624504,
+      "predicted": 0,
+      "actual": 2,
+      "title": "Software Engineer Intern (Summer 2027)"
+    },
+    {
+      "id": "experience-03",
+      "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+      "chunk_id": 579,
+      "score": 0.74068534,
+      "predicted": 2,
+      "actual": 0,
+      "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+    },
+    {
+      "id": "experience-03",
+      "job_id": "a9f5415aa320479c9499838f51ea9573",
+      "chunk_id": 370,
+      "score": 0.50107616,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Software Engineer Intern"
+    },
+    {
+      "id": "experience-03",
+      "job_id": "bd485610d2ca455e863c1dae5c8964ee",
+      "chunk_id": 532,
+      "score": 0.43474296,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Software Engineer Intern"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "e90995a7230e4fe188a0fbb8a35b52cf",
+      "chunk_id": 20,
+      "score": 0.02852341,
+      "predicted": 0,
+      "actual": 2,
+      "title": "Research Scientist - AI"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+      "chunk_id": 579,
+      "score": 0.83209783,
+      "predicted": 2,
+      "actual": 0,
+      "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+      "chunk_id": 392,
+      "score": 0.53224099,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Intern, AI Engineer"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "d40fbb60a04f4d8f91239e0bf91f491f",
+      "chunk_id": 628,
+      "score": 0.54138541,
+      "predicted": 2,
+      "actual": 0,
+      "title": "AI Research Intern, Singapore"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "32d4d827ae7c449693180fbd179b23fa",
+      "chunk_id": 562,
+      "score": 0.35263014,
+      "predicted": 1,
+      "actual": 0,
+      "title": "AI Automation Engineer Intern [IDA:00054]"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "3a1bd8b3b54249ad883fdb7d659c4d7e",
+      "chunk_id": 100,
+      "score": 0.04564041,
+      "predicted": 0,
+      "actual": 1,
+      "title": "AI Research Scientist"
+    },
+    {
+      "id": "comparison-01",
+      "job_id": "870db6571b7a49c7a8ffea5f853eb214",
+      "chunk_id": 158,
+      "score": 0.32817411,
+      "predicted": 1,
+      "actual": 0,
+      "title": "Internship - Embedded AI Application Engineering"
+    },
+    {
+      "id": "filters-01",
+      "job_id": "9185abe2554e47acab54067a3d8f1061",
+      "chunk_id": 91,
+      "score": 0.40064847,
+      "predicted": 1,
+      "actual": 2,
+      "title": "Engineering Manager – AI Engineering & LLM Systems"
+    },
+    {
+      "id": "filters-01",
+      "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+      "chunk_id": 393,
+      "score": 0.63210279,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Intern, AI Engineer"
+    },
+    {
+      "id": "filters-01",
+      "job_id": "788db75b2d0d4a19956172ec3dee5d09",
+      "chunk_id": 460,
+      "score": 0.43139732,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Generative AI Engineer Intern - SAP Singapore"
+    },
+    {
+      "id": "filters-01",
+      "job_id": "a5fbd58f04244fb48f95fa56fa54c6f8",
+      "chunk_id": 565,
+      "score": 0.32465601,
+      "predicted": 1,
+      "actual": 0,
+      "title": "Embedded AI Engineer Intern [IDA: 00051]"
+    },
+    {
+      "id": "filters-03",
+      "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+      "chunk_id": 147,
+      "score": 0.00314624,
+      "predicted": 0,
+      "actual": 2,
+      "title": "Software Engineer Intern (Summer 2027)"
+    },
+    {
+      "id": "filters-03",
+      "job_id": "91301a37c53d4f7ba57bb04f63492076",
+      "chunk_id": 573,
+      "score": 0.00888723,
+      "predicted": 0,
+      "actual": 2,
+      "title": "[Uni - Jan till Jun 2027] GenAI Software Engineer Intern"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "583d67c2fdcf4417bef21113441f6e52",
+      "chunk_id": 94,
+      "score": 0.916646,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Agentic Ai Software Development Engineer"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "ac07809e2795409dad980e97eeb49281",
+      "chunk_id": 24,
+      "score": 0.2721267,
+      "predicted": 0,
+      "actual": 2,
+      "title": "AI Engineer"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "a18cad1e69dd407a8f07a0ca18423904",
+      "chunk_id": 557,
+      "score": 0.8998763,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Agentic AI Intern (Hybrid) - Able to Commit 5 - 6 Months"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "6d1bbabff1fa4b50aa4673520f7fb9c4",
+      "chunk_id": 623,
+      "score": 0.92559642,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Intern - AI Workflow & Agent Automation"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "df014801759e40c49111962b44c2332a",
+      "chunk_id": 338,
+      "score": 0.32782346,
+      "predicted": 1,
+      "actual": 0,
+      "title": "AI Agent Algorithm Engineer Intern (Global E-Commerce, Conversational AI) - 2027 Start (PhD)"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "72c60178160148aa9a021a11eb56ce16",
+      "chunk_id": 35,
+      "score": 0.32282749,
+      "predicted": 1,
+      "actual": 0,
+      "title": "Software Engineer, Content Safety, AI Transformation Enablement"
+    },
+    {
+      "id": "skills-05",
+      "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+      "chunk_id": 42,
+      "score": 0.63050061,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Senior AI Research Engineer (Generative AI)"
+    },
+    {
+      "id": "experience-05",
+      "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+      "chunk_id": 3,
+      "score": 0.10577553,
+      "predicted": 0,
+      "actual": 1,
+      "title": "AI Agent Engineer (LLM Applications / RAG / Agentic AI, Multiple Opportunities!)"
+    },
+    {
+      "id": "comparison-05",
+      "job_id": "ac07809e2795409dad980e97eeb49281",
+      "chunk_id": 24,
+      "score": 0.13718323,
+      "predicted": 0,
+      "actual": 2,
+      "title": "AI Engineer"
+    },
+    {
+      "id": "comparison-05",
+      "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+      "chunk_id": 25,
+      "score": 0.46929297,
+      "predicted": 2,
+      "actual": 1,
+      "title": "AI Research Scientist, Singapore"
+    },
+    {
+      "id": "comparison-05",
+      "job_id": "16889a8bc537494e933ccc41ddf91660",
+      "chunk_id": 11,
+      "score": 0.2585682,
+      "predicted": 0,
+      "actual": 1,
+      "title": "AI Application Engineer"
+    },
+    {
+      "id": "comparison-05",
+      "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+      "chunk_id": 580,
+      "score": 0.45227084,
+      "predicted": 2,
+      "actual": 0,
+      "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern"
+    },
+    {
+      "id": "comparison-05",
+      "job_id": "583d67c2fdcf4417bef21113441f6e52",
+      "chunk_id": 96,
+      "score": 0.53869605,
+      "predicted": 2,
+      "actual": 0,
+      "title": "Agentic Ai Software Development Engineer"
+    },
+    {
+      "id": "filters-05",
+      "job_id": "443fff2821044262a3d853f1d333aef8",
+      "chunk_id": 446,
+      "score": 0.00266754,
+      "predicted": 0,
+      "actual": 2,
+      "title": "Research Intern"
+    }
+  ],
+  "interpretation": "Reranker scores and silver labels require human audit before automatic labels are used in production."
+}

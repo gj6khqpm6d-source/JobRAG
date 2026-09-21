@@ -1,0 +1,171 @@
+{
+  "contract_version": "1.0",
+  "name": "JobRAG 求职岗位分析",
+  "default_mode": "role_analysis",
+  "modes": {
+    "role_analysis": {
+      "status": "active",
+      "purpose": "从满足用户筛选条件的相关岗位集合中分析共性要求、技能频率和加分项",
+      "requires_job_set": true
+    },
+    "job_detail": {
+      "status": "planned",
+      "purpose": "分析一个具体岗位的职责、硬性要求、加分项和个人匹配度",
+      "requires_job_set": false
+    }
+  },
+  "scope": {
+    "domain": "软件方向的 AI、AI Agent、RAG、机器学习和相关工程岗位",
+    "default_language": "zh-CN",
+    "supported_filters_now": [
+      "source",
+      "location",
+      "title",
+      "job_type",
+      "date_after"
+    ],
+    "target_filters": [
+      "source",
+      "location",
+      "title",
+      "job_type",
+      "date_after",
+      "is_remote",
+      "experience_level",
+      "posted_after"
+    ],
+    "out_of_scope_examples": [
+      "天气、股票、旅游和与招聘岗位无关的事实查询",
+      "没有岗位证据支持的泛化劳动市场结论"
+    ]
+  },
+  "chunking_contract": {
+    "strategy": "section_paragraph_list",
+    "relevant_sections": [
+      "overview",
+      "responsibilities",
+      "required_qualifications",
+      "preferred_qualifications",
+      "skills",
+      "experience",
+      "education",
+      "projects_research",
+      "work_arrangement"
+    ],
+    "ignored_sections": [
+      "company",
+      "benefits",
+      "compensation",
+      "application",
+      "legal"
+    ],
+    "max_chars": 1800,
+    "overlap_chars": 180,
+    "context_fields": [
+      "job_id",
+      "title",
+      "company",
+      "location",
+      "job_type",
+      "section_type",
+      "chunk_index",
+      "content_hash"
+    ],
+    "unstructured_fallback": "preserve_general_text"
+  },
+  "lifecycle_contract": {
+    "retention_days": 60,
+    "primary_age_field": "date_posted",
+    "missing_date_fallback": "last_seen_at",
+    "expired_record_policy": "mark_inactive_and_retain_source_history",
+    "expired_index_policy": "remove_chunks_and_embeddings",
+    "incremental_sync": "rebuild_chunks_and_embeddings_only_for_inserted_changed_or_reactivated_jobs",
+    "run_policy": [
+      "application_startup",
+      "after_ingestion",
+      "manual_api"
+    ]
+  },
+  "retrieval_contract": {
+    "unit": "job",
+    "candidate_jobs": {
+      "minimum": 1,
+      "target": 30,
+      "maximum": 50,
+      "small_corpus_policy": "如果符合条件的岗位少于目标数量，使用全部符合条件的岗位并明确披露实际样本数"
+    },
+    "top_relevant_jobs": {
+      "minimum": 1,
+      "target": 8,
+      "maximum": 12,
+      "small_corpus_policy": "如果高相关岗位少于目标数量，使用全部高相关岗位，不以低相关岗位凑数"
+    },
+    "deduplicate_by": "job_id",
+    "skill_frequency_denominator": "top_relevant_jobs",
+    "global_corpus_stats": "explicit_request_only",
+    "retrieval_strategy": "metadata_filter_then_hybrid_keyword_vector_retrieval"
+  },
+  "answer_contract": {
+    "required_sections": [
+      "分析范围与样本数量",
+      "核心技能和硬性要求",
+      "常见但非必需的技能",
+      "加分项",
+      "职责和技术栈归纳",
+      "岗位证据和来源链接",
+      "结论限制与不确定性"
+    ],
+    "citation": {
+      "required": true,
+      "format": "numbered_job_sources",
+      "minimum_sources": 1
+    },
+    "refusal": {
+      "triggers": [
+        "no_relevant_jobs",
+        "insufficient_evidence",
+        "out_of_scope"
+      ],
+      "behavior": "明确说明证据不足或超出知识库范围，不得编造岗位、公司、要求、比例或薪资"
+    },
+    "frequency_language": "频率结论必须说明分母为本次筛选出的岗位候选集，而不是整个知识库或全部劳动市场"
+  },
+  "quality_contract": {
+    "retrieval_metrics": [
+      "job_level_recall_at_k",
+      "ndcg",
+      "relevant_job_coverage",
+      "metadata_filter_accuracy"
+    ],
+    "answer_metrics": [
+      "groundedness",
+      "relevance",
+      "completeness",
+      "citation_coverage",
+      "refusal_quality"
+    ],
+    "release_requirements": [
+      "每次修改 chunk、Embedding、检索权重、Prompt 或 LLM 后运行回归评估",
+      "保留开发集和未参与调参的测试集",
+      "检索指标与回答指标分开记录"
+    ]
+  },
+  "delivery_workflow": {
+    "phase_confirmation_required": true,
+    "sequence": [
+      "business_contract",
+      "job_level_retrieval",
+      "evidence_answer",
+      "knowledge_lifecycle",
+      "end_to_end_evaluation",
+      "operations_and_monitoring",
+      "security_and_governance"
+    ],
+    "per_phase": [
+      "先提交设计和验收标准",
+      "用户确认后实现",
+      "运行测试并报告结果",
+      "用户确认当前阶段完成后进入下一阶段"
+    ]
+  }
+}

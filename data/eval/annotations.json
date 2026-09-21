@@ -1,0 +1,1143 @@
+{
+  "version": 1,
+  "annotations": {
+    "skills-01": {
+      "job_judgments": [
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 2
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 1
+        },
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 2
+        },
+        {
+          "job_id": "87373e170d4c4bec93d20969859c3e28",
+          "relevance": 0
+        },
+        {
+          "job_id": "c0f677c33f734f8589d6169294a4d552",
+          "relevance": 0
+        },
+        {
+          "job_id": "9185abe2554e47acab54067a3d8f1061",
+          "relevance": 1
+        },
+        {
+          "job_id": "8cf2df484a43484ba93d3f1b5695822b",
+          "relevance": 2
+        },
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 2
+        },
+        {
+          "job_id": "972547ef4de3410fb8373d5b3c464802",
+          "relevance": 1
+        },
+        {
+          "job_id": "287b786ce79a4acfa96159381a8aebe1",
+          "relevance": 2
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+          "relevance": 1
+        },
+        {
+          "job_id": "a18cad1e69dd407a8f07a0ca18423904",
+          "relevance": 2
+        },
+        {
+          "job_id": "54c786adaeeb4aa3b6f9330e234c8bc3",
+          "relevance": 0
+        },
+        {
+          "job_id": "df014801759e40c49111962b44c2332a",
+          "relevance": 0
+        },
+        {
+          "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+          "relevance": 0
+        },
+        {
+          "job_id": "4cde8a4bc2e948a99459ba51ca7ebc15",
+          "relevance": 0
+        },
+        {
+          "job_id": "c1e7952c8c8f4eeea159a9e6a9041c33",
+          "relevance": 0
+        },
+        {
+          "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+          "relevance": 0
+        },
+        {
+          "job_id": "d40fbb60a04f4d8f91239e0bf91f491f",
+          "relevance": 0
+        },
+        {
+          "job_id": "6f4f33aa727b47aaa36b1e0f3c0d004c",
+          "relevance": 0
+        },
+        {
+          "job_id": "8bb2a4c35a004c52a6b31c97f209e5b2",
+          "relevance": 0
+        },
+        {
+          "job_id": "4034d6d3ec004d4f90c0717ede692a99",
+          "relevance": 0
+        },
+        {
+          "job_id": "3e234a9160d34d0fa57dd494e11000cb",
+          "relevance": 0
+        },
+        {
+          "job_id": "a74fae4bb4da4d3c84ad4af0317f1b86",
+          "relevance": 0
+        },
+        {
+          "job_id": "d0775e48f9954f4381965162d4e3b54c",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        24,
+        16,
+        270,
+        218,
+        292,
+        28,
+        557
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-15T16:14:20"
+    },
+    "experience-03": {
+      "job_judgments": [
+        {
+          "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+          "relevance": 2
+        },
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 0
+        },
+        {
+          "job_id": "6f4f33aa727b47aaa36b1e0f3c0d004c",
+          "relevance": 2
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "c402ceefbdf445c6baddfafbe5c8750b",
+          "relevance": 0
+        },
+        {
+          "job_id": "a9f5415aa320479c9499838f51ea9573",
+          "relevance": 0
+        },
+        {
+          "job_id": "bd485610d2ca455e863c1dae5c8964ee",
+          "relevance": 0
+        },
+        {
+          "job_id": "91301a37c53d4f7ba57bb04f63492076",
+          "relevance": 0
+        },
+        {
+          "job_id": "6d1bbabff1fa4b50aa4673520f7fb9c4",
+          "relevance": 0
+        },
+        {
+          "job_id": "41b8fe83f86e4feaac682faf5fc13b9e",
+          "relevance": 0
+        },
+        {
+          "job_id": "093735ae5bfb4c6a8a6e3cc7c23d40e6",
+          "relevance": 0
+        },
+        {
+          "job_id": "a00ff431187547e9a5522ee42734aff2",
+          "relevance": 0
+        },
+        {
+          "job_id": "ceb6e4030ff04df8a23d00d4bc6247e5",
+          "relevance": 0
+        },
+        {
+          "job_id": "657e39dd9bc7409a8f167fe5e61d96b4",
+          "relevance": 0
+        },
+        {
+          "job_id": "a1039adb0894477d9ba49ca8fc55d763",
+          "relevance": 0
+        },
+        {
+          "job_id": "0398e8e5c7f34da0a174a182395baa14",
+          "relevance": 0
+        },
+        {
+          "job_id": "d6a130bd39504ad09097b1da90b72727",
+          "relevance": 0
+        },
+        {
+          "job_id": "75e64817dd11433baaa3c6283a4c25a2",
+          "relevance": 0
+        },
+        {
+          "job_id": "90fd8d2e90114009b1f1bb4a914eda8e",
+          "relevance": 0
+        },
+        {
+          "job_id": "f859f0faf9c943e2af49c753c94199a7",
+          "relevance": 0
+        },
+        {
+          "job_id": "85e4f3d061094c3d93001b823ed4ad36",
+          "relevance": 0
+        },
+        {
+          "job_id": "afc5f37f6c9042358a6f1d10c8e717a4",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        146,
+        418
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-15T16:18:54"
+    },
+    "skills-02": {
+      "job_judgments": [
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 2
+        },
+        {
+          "job_id": "9185abe2554e47acab54067a3d8f1061",
+          "relevance": 2
+        },
+        {
+          "job_id": "f516efe5cbc546b19a4700b0779a1c70",
+          "relevance": 0
+        },
+        {
+          "job_id": "a1039adb0894477d9ba49ca8fc55d763",
+          "relevance": 0
+        },
+        {
+          "job_id": "0b0a8c1caeb8419d8c8e93584ae68376",
+          "relevance": 0
+        },
+        {
+          "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+          "relevance": 0
+        },
+        {
+          "job_id": "788db75b2d0d4a19956172ec3dee5d09",
+          "relevance": 0
+        },
+        {
+          "job_id": "a5fbd58f04244fb48f95fa56fa54c6f8",
+          "relevance": 0
+        },
+        {
+          "job_id": "7b65264dff6844e88db646064a361773",
+          "relevance": 0
+        },
+        {
+          "job_id": "2146da70d6c74982afe8c58942726e8e",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        24,
+        92
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-15T16:19:40"
+    },
+    "insufficient-02": {
+      "job_judgments": [
+        {
+          "job_id": "a099b183a9c946b4856568ddbd650c66",
+          "relevance": 0
+        },
+        {
+          "job_id": "cf9eac7f63224154a7c6a6c6a3473026",
+          "relevance": 0
+        },
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 0
+        },
+        {
+          "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+          "relevance": 0
+        },
+        {
+          "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+          "relevance": 0
+        },
+        {
+          "job_id": "9185abe2554e47acab54067a3d8f1061",
+          "relevance": 0
+        },
+        {
+          "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "relevance": 0
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "4870bbb0ba9f4ea6b09985c91a48e871",
+          "relevance": 0
+        },
+        {
+          "job_id": "df014801759e40c49111962b44c2332a",
+          "relevance": 0
+        },
+        {
+          "job_id": "8cf2df484a43484ba93d3f1b5695822b",
+          "relevance": 0
+        },
+        {
+          "job_id": "16889a8bc537494e933ccc41ddf91660",
+          "relevance": 0
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 0
+        },
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 0
+        },
+        {
+          "job_id": "4cde8a4bc2e948a99459ba51ca7ebc15",
+          "relevance": 0
+        },
+        {
+          "job_id": "32d4d827ae7c449693180fbd179b23fa",
+          "relevance": 0
+        },
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 0
+        },
+        {
+          "job_id": "972547ef4de3410fb8373d5b3c464802",
+          "relevance": 0
+        },
+        {
+          "job_id": "e90995a7230e4fe188a0fbb8a35b52cf",
+          "relevance": 0
+        },
+        {
+          "job_id": "72c60178160148aa9a021a11eb56ce16",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [],
+      "answer_key_points": [],
+      "should_refuse": true,
+      "notes": "",
+      "updated_at": "2026-09-15T16:20:45"
+    },
+    "filters-01": {
+      "job_judgments": [
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 2
+        },
+        {
+          "job_id": "9185abe2554e47acab54067a3d8f1061",
+          "relevance": 2
+        },
+        {
+          "job_id": "f516efe5cbc546b19a4700b0779a1c70",
+          "relevance": 0
+        },
+        {
+          "job_id": "a1039adb0894477d9ba49ca8fc55d763",
+          "relevance": 0
+        },
+        {
+          "job_id": "0b0a8c1caeb8419d8c8e93584ae68376",
+          "relevance": 0
+        },
+        {
+          "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+          "relevance": 0
+        },
+        {
+          "job_id": "788db75b2d0d4a19956172ec3dee5d09",
+          "relevance": 0
+        },
+        {
+          "job_id": "7b65264dff6844e88db646064a361773",
+          "relevance": 0
+        },
+        {
+          "job_id": "a5fbd58f04244fb48f95fa56fa54c6f8",
+          "relevance": 0
+        },
+        {
+          "job_id": "2146da70d6c74982afe8c58942726e8e",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        24,
+        92
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-15T16:21:19"
+    },
+    "comparison-02": {
+      "job_judgments": [
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 0
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 0
+        },
+        {
+          "job_id": "4cde8a4bc2e948a99459ba51ca7ebc15",
+          "relevance": 0
+        },
+        {
+          "job_id": "a099b183a9c946b4856568ddbd650c66",
+          "relevance": 0
+        },
+        {
+          "job_id": "650570d6b4ea48dcbcfe084d1ab9833d",
+          "relevance": 0
+        },
+        {
+          "job_id": "4034d6d3ec004d4f90c0717ede692a99",
+          "relevance": 0
+        },
+        {
+          "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "relevance": 0
+        },
+        {
+          "job_id": "df014801759e40c49111962b44c2332a",
+          "relevance": 0
+        },
+        {
+          "job_id": "3e234a9160d34d0fa57dd494e11000cb",
+          "relevance": 0
+        },
+        {
+          "job_id": "8cf2df484a43484ba93d3f1b5695822b",
+          "relevance": 0
+        },
+        {
+          "job_id": "4870bbb0ba9f4ea6b09985c91a48e871",
+          "relevance": 0
+        },
+        {
+          "job_id": "6bbf66299d264051932ce2c8fcaeca87",
+          "relevance": 0
+        },
+        {
+          "job_id": "87373e170d4c4bec93d20969859c3e28",
+          "relevance": 0
+        },
+        {
+          "job_id": "c1e7952c8c8f4eeea159a9e6a9041c33",
+          "relevance": 0
+        },
+        {
+          "job_id": "287b786ce79a4acfa96159381a8aebe1",
+          "relevance": 0
+        },
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 0
+        },
+        {
+          "job_id": "54f72060eafc41dcba23243fd3a80d30",
+          "relevance": 0
+        },
+        {
+          "job_id": "a74fae4bb4da4d3c84ad4af0317f1b86",
+          "relevance": 0
+        },
+        {
+          "job_id": "d0775e48f9954f4381965162d4e3b54c",
+          "relevance": 0
+        },
+        {
+          "job_id": "4ad5dd89d51142059913ee4355ba770a",
+          "relevance": 0
+        },
+        {
+          "job_id": "9185abe2554e47acab54067a3d8f1061",
+          "relevance": 0
+        },
+        {
+          "job_id": "c0f677c33f734f8589d6169294a4d552",
+          "relevance": 0
+        },
+        {
+          "job_id": "128af0a735c4472ab08fd147d6c611db",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [],
+      "answer_key_points": [],
+      "should_refuse": true,
+      "notes": "",
+      "updated_at": "2026-09-15T16:21:57"
+    },
+    "comparison-01": {
+      "job_judgments": [
+        {
+          "job_id": "6bbf66299d264051932ce2c8fcaeca87",
+          "relevance": 2
+        },
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 0
+        },
+        {
+          "job_id": "a1039adb0894477d9ba49ca8fc55d763",
+          "relevance": 0
+        },
+        {
+          "job_id": "4cde8a4bc2e948a99459ba51ca7ebc15",
+          "relevance": 0
+        },
+        {
+          "job_id": "e90995a7230e4fe188a0fbb8a35b52cf",
+          "relevance": 2
+        },
+        {
+          "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+          "relevance": 0
+        },
+        {
+          "job_id": "4ad5dd89d51142059913ee4355ba770a",
+          "relevance": 0
+        },
+        {
+          "job_id": "3a1bd8b3b54249ad883fdb7d659c4d7e",
+          "relevance": 1
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "1f888de308c24a88b3afc53ce9b747ec",
+          "relevance": 0
+        },
+        {
+          "job_id": "ed3796a4540d466f8c05d8a395d335ef",
+          "relevance": 0
+        },
+        {
+          "job_id": "650570d6b4ea48dcbcfe084d1ab9833d",
+          "relevance": 0
+        },
+        {
+          "job_id": "98e28a858d854dd586819f11f3ea2f6b",
+          "relevance": 0
+        },
+        {
+          "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+          "relevance": 0
+        },
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 0
+        },
+        {
+          "job_id": "41b8fe83f86e4feaac682faf5fc13b9e",
+          "relevance": 0
+        },
+        {
+          "job_id": "0d7b659cd6a04a5aba8559275faa4735",
+          "relevance": 0
+        },
+        {
+          "job_id": "d40fbb60a04f4d8f91239e0bf91f491f",
+          "relevance": 0
+        },
+        {
+          "job_id": "32d4d827ae7c449693180fbd179b23fa",
+          "relevance": 0
+        },
+        {
+          "job_id": "a7f93508c9a94d7b92621c81414f0ac9",
+          "relevance": 0
+        },
+        {
+          "job_id": "443fff2821044262a3d853f1d333aef8",
+          "relevance": 0
+        },
+        {
+          "job_id": "54c786adaeeb4aa3b6f9330e234c8bc3",
+          "relevance": 0
+        },
+        {
+          "job_id": "cf9eac7f63224154a7c6a6c6a3473026",
+          "relevance": 0
+        },
+        {
+          "job_id": "df014801759e40c49111962b44c2332a",
+          "relevance": 0
+        },
+        {
+          "job_id": "90fd8d2e90114009b1f1bb4a914eda8e",
+          "relevance": 0
+        },
+        {
+          "job_id": "870db6571b7a49c7a8ffea5f853eb214",
+          "relevance": 0
+        },
+        {
+          "job_id": "128af0a735c4472ab08fd147d6c611db",
+          "relevance": 0
+        },
+        {
+          "job_id": "0398e8e5c7f34da0a174a182395baa14",
+          "relevance": 0
+        },
+        {
+          "job_id": "d6a130bd39504ad09097b1da90b72727",
+          "relevance": 0
+        },
+        {
+          "job_id": "f859f0faf9c943e2af49c753c94199a7",
+          "relevance": 0
+        },
+        {
+          "job_id": "85e4f3d061094c3d93001b823ed4ad36",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        130,
+        20,
+        100
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-15T16:39:24"
+    },
+    "skills-05": {
+      "job_judgments": [
+        {
+          "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "relevance": 2
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 0
+        },
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 0
+        },
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 2
+        },
+        {
+          "job_id": "4870bbb0ba9f4ea6b09985c91a48e871",
+          "relevance": 0
+        },
+        {
+          "job_id": "6bbf66299d264051932ce2c8fcaeca87",
+          "relevance": 2
+        },
+        {
+          "job_id": "a18cad1e69dd407a8f07a0ca18423904",
+          "relevance": 0
+        },
+        {
+          "job_id": "972547ef4de3410fb8373d5b3c464802",
+          "relevance": 0
+        },
+        {
+          "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+          "relevance": 0
+        },
+        {
+          "job_id": "6d1bbabff1fa4b50aa4673520f7fb9c4",
+          "relevance": 0
+        },
+        {
+          "job_id": "72c60178160148aa9a021a11eb56ce16",
+          "relevance": 0
+        },
+        {
+          "job_id": "8cf2df484a43484ba93d3f1b5695822b",
+          "relevance": 0
+        },
+        {
+          "job_id": "df014801759e40c49111962b44c2332a",
+          "relevance": 0
+        },
+        {
+          "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+          "relevance": 0
+        },
+        {
+          "job_id": "287b786ce79a4acfa96159381a8aebe1",
+          "relevance": 0
+        },
+        {
+          "job_id": "c1e7952c8c8f4eeea159a9e6a9041c33",
+          "relevance": 0
+        },
+        {
+          "job_id": "650570d6b4ea48dcbcfe084d1ab9833d",
+          "relevance": 0
+        },
+        {
+          "job_id": "a00ff431187547e9a5522ee42734aff2",
+          "relevance": 0
+        },
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 0
+        },
+        {
+          "job_id": "cf9eac7f63224154a7c6a6c6a3473026",
+          "relevance": 0
+        },
+        {
+          "job_id": "4cde8a4bc2e948a99459ba51ca7ebc15",
+          "relevance": 0
+        },
+        {
+          "job_id": "4034d6d3ec004d4f90c0717ede692a99",
+          "relevance": 0
+        },
+        {
+          "job_id": "3e234a9160d34d0fa57dd494e11000cb",
+          "relevance": 0
+        },
+        {
+          "job_id": "a74fae4bb4da4d3c84ad4af0317f1b86",
+          "relevance": 0
+        },
+        {
+          "job_id": "d0775e48f9954f4381965162d4e3b54c",
+          "relevance": 0
+        },
+        {
+          "job_id": "4ad5dd89d51142059913ee4355ba770a",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        4,
+        24
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-16T22:51:20"
+    },
+    "experience-05": {
+      "job_judgments": [
+        {
+          "job_id": "cf9eac7f63224154a7c6a6c6a3473026",
+          "relevance": 0
+        },
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 0
+        },
+        {
+          "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "relevance": 1
+        },
+        {
+          "job_id": "16889a8bc537494e933ccc41ddf91660",
+          "relevance": 0
+        },
+        {
+          "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+          "relevance": 0
+        },
+        {
+          "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+          "relevance": 0
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 0
+        },
+        {
+          "job_id": "a099b183a9c946b4856568ddbd650c66",
+          "relevance": 0
+        },
+        {
+          "job_id": "0d7b659cd6a04a5aba8559275faa4735",
+          "relevance": 0
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "972a368cc00c4bc4a81e30b2f71b4f64",
+          "relevance": 0
+        },
+        {
+          "job_id": "6d60cc5cd3c74292b41dc0e9a4c14ae6",
+          "relevance": 0
+        },
+        {
+          "job_id": "650570d6b4ea48dcbcfe084d1ab9833d",
+          "relevance": 0
+        },
+        {
+          "job_id": "35153e75f5c746ad913e0492b516bb6e",
+          "relevance": 0
+        },
+        {
+          "job_id": "91301a37c53d4f7ba57bb04f63492076",
+          "relevance": 0
+        },
+        {
+          "job_id": "a00ff431187547e9a5522ee42734aff2",
+          "relevance": 0
+        },
+        {
+          "job_id": "d6e6bc6c41af44928c81e718e0ed88d3",
+          "relevance": 0
+        },
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 0
+        },
+        {
+          "job_id": "972547ef4de3410fb8373d5b3c464802",
+          "relevance": 0
+        },
+        {
+          "job_id": "e90995a7230e4fe188a0fbb8a35b52cf",
+          "relevance": 0
+        },
+        {
+          "job_id": "72c60178160148aa9a021a11eb56ce16",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        4
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-16T22:53:18"
+    },
+    "comparison-05": {
+      "job_judgments": [
+        {
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "relevance": 2
+        },
+        {
+          "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+          "relevance": 1
+        },
+        {
+          "job_id": "e90995a7230e4fe188a0fbb8a35b52cf",
+          "relevance": 0
+        },
+        {
+          "job_id": "d40fbb60a04f4d8f91239e0bf91f491f",
+          "relevance": 1
+        },
+        {
+          "job_id": "16889a8bc537494e933ccc41ddf91660",
+          "relevance": 1
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 0
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 0
+        },
+        {
+          "job_id": "972547ef4de3410fb8373d5b3c464802",
+          "relevance": 0
+        },
+        {
+          "job_id": "83ed3239a3cb4a50ba870215db6151b7",
+          "relevance": 0
+        },
+        {
+          "job_id": "bd485610d2ca455e863c1dae5c8964ee",
+          "relevance": 0
+        },
+        {
+          "job_id": "abdbaf0a507b4d63b6306a0c53a318eb",
+          "relevance": 0
+        },
+        {
+          "job_id": "91301a37c53d4f7ba57bb04f63492076",
+          "relevance": 0
+        },
+        {
+          "job_id": "54c786adaeeb4aa3b6f9330e234c8bc3",
+          "relevance": 0
+        },
+        {
+          "job_id": "972a368cc00c4bc4a81e30b2f71b4f64",
+          "relevance": 0
+        },
+        {
+          "job_id": "657e39dd9bc7409a8f167fe5e61d96b4",
+          "relevance": 0
+        },
+        {
+          "job_id": "443fff2821044262a3d853f1d333aef8",
+          "relevance": 0
+        },
+        {
+          "job_id": "c0f677c33f734f8589d6169294a4d552",
+          "relevance": 0
+        },
+        {
+          "job_id": "f8d79f02313449f4886aac6b73ab9e01",
+          "relevance": 0
+        },
+        {
+          "job_id": "8bb2a4c35a004c52a6b31c97f209e5b2",
+          "relevance": 0
+        },
+        {
+          "job_id": "4034d6d3ec004d4f90c0717ede692a99",
+          "relevance": 0
+        },
+        {
+          "job_id": "3e234a9160d34d0fa57dd494e11000cb",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [
+        25,
+        26
+      ],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-16T22:55:33"
+    },
+    "filters-05": {
+      "job_judgments": [
+        {
+          "job_id": "a74fae4bb4da4d3c84ad4af0317f1b86",
+          "relevance": 0
+        },
+        {
+          "job_id": "90fd8d2e90114009b1f1bb4a914eda8e",
+          "relevance": 0
+        },
+        {
+          "job_id": "443fff2821044262a3d853f1d333aef8",
+          "relevance": 2
+        },
+        {
+          "job_id": "229d593e8c76425c9d1ff9b3f972847c",
+          "relevance": 0
+        },
+        {
+          "job_id": "af47d3c5290447d4bac19abb85468d23",
+          "relevance": 0
+        },
+        {
+          "job_id": "1f888de308c24a88b3afc53ce9b747ec",
+          "relevance": 0
+        },
+        {
+          "job_id": "85e4f3d061094c3d93001b823ed4ad36",
+          "relevance": 0
+        },
+        {
+          "job_id": "bbfe96865d3d41679612a27954a315a9",
+          "relevance": 0
+        },
+        {
+          "job_id": "c7ddba20301848c6886440bf432af06e",
+          "relevance": 0
+        },
+        {
+          "job_id": "093735ae5bfb4c6a8a6e3cc7c23d40e6",
+          "relevance": 0
+        },
+        {
+          "job_id": "7b65264dff6844e88db646064a361773",
+          "relevance": 1
+        },
+        {
+          "job_id": "659e62e8673e4c73acebcb858cd46e9d",
+          "relevance": 2
+        },
+        {
+          "job_id": "3e234a9160d34d0fa57dd494e11000cb",
+          "relevance": 0
+        },
+        {
+          "job_id": "fa50565721fe48098a22ab7ec075643c",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-16T22:57:06"
+    },
+    "filters-03": {
+      "job_judgments": [
+        {
+          "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+          "relevance": 2
+        },
+        {
+          "job_id": "657e39dd9bc7409a8f167fe5e61d96b4",
+          "relevance": 0
+        },
+        {
+          "job_id": "91301a37c53d4f7ba57bb04f63492076",
+          "relevance": 2
+        },
+        {
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "relevance": 0
+        },
+        {
+          "job_id": "72c60178160148aa9a021a11eb56ce16",
+          "relevance": 0
+        },
+        {
+          "job_id": "3765cd3263a64ec7981038b9ff47f8aa",
+          "relevance": 0
+        },
+        {
+          "job_id": "a9f5415aa320479c9499838f51ea9573",
+          "relevance": 0
+        },
+        {
+          "job_id": "da3405af6c864d97af939f0e450df25d",
+          "relevance": 0
+        },
+        {
+          "job_id": "0d7b659cd6a04a5aba8559275faa4735",
+          "relevance": 0
+        },
+        {
+          "job_id": "83ed3239a3cb4a50ba870215db6151b7",
+          "relevance": 0
+        },
+        {
+          "job_id": "abdbaf0a507b4d63b6306a0c53a318eb",
+          "relevance": 0
+        },
+        {
+          "job_id": "bd485610d2ca455e863c1dae5c8964ee",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [],
+      "answer_key_points": [],
+      "should_refuse": false,
+      "notes": "",
+      "updated_at": "2026-09-16T22:57:34"
+    },
+    "filters-04": {
+      "job_judgments": [
+        {
+          "job_id": "a08cb8b411ba46eaa9cd05401c65d057",
+          "relevance": 0
+        },
+        {
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "relevance": 0
+        },
+        {
+          "job_id": "73264a25d7d84344b88c770a27649eac",
+          "relevance": 0
+        },
+        {
+          "job_id": "8cf2df484a43484ba93d3f1b5695822b",
+          "relevance": 0
+        },
+        {
+          "job_id": "287b786ce79a4acfa96159381a8aebe1",
+          "relevance": 0
+        },
+        {
+          "job_id": "4034d6d3ec004d4f90c0717ede692a99",
+          "relevance": 0
+        },
+        {
+          "job_id": "4cde8a4bc2e948a99459ba51ca7ebc15",
+          "relevance": 0
+        },
+        {
+          "job_id": "c1e7952c8c8f4eeea159a9e6a9041c33",
+          "relevance": 0
+        },
+        {
+          "job_id": "df014801759e40c49111962b44c2332a",
+          "relevance": 0
+        },
+        {
+          "job_id": "a18cad1e69dd407a8f07a0ca18423904",
+          "relevance": 0
+        },
+        {
+          "job_id": "0936c6448537487e8b997e620e3af1ba",
+          "relevance": 0
+        }
+      ],
+      "evidence_chunk_ids": [],
+      "answer_key_points": [],
+      "should_refuse": true,
+      "notes": "过滤不正确，这些岗位都不要求自动化",
+      "updated_at": "2026-09-16T23:33:24"
+    }
+  }
+}

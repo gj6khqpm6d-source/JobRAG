@@ -1,0 +1,33 @@
+{
+  "development": [
+    "skills-01",
+    "skills-02",
+    "skills-03",
+    "skills-04",
+    "experience-01",
+    "experience-02",
+    "experience-03",
+    "experience-04",
+    "comparison-01",
+    "comparison-02",
+    "comparison-03",
+    "comparison-04",
+    "filters-01",
+    "filters-02",
+    "filters-03"
+  ],
+  "test": [
+    "skills-05",
+    "experience-05",
+    "comparison-05",
+    "filters-04",
+    "filters-05"
+  ],
+  "refusal": [
+    "insufficient-01",
+    "insufficient-02",
+    "insufficient-03",
+    "insufficient-04",
+    "insufficient-05"
+  ]
+}

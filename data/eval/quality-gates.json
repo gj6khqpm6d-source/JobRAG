@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "minimum_questions": 25,
+  "minimum_annotated_answerable_questions": 8,
+  "minimum_recall_at_8": 0.7,
+  "minimum_graded_ndcg_at_8": 0.65,
+  "minimum_filter_accuracy": 1.0,
+  "minimum_analysis_invariant_rate": 1.0,
+  "minimum_citation_validity_rate": 1.0,
+  "minimum_refusal_accuracy": 1.0,
+  "minimum_index_coverage": 1.0,
+  "maximum_active_stale_jobs": 0,
+  "maximum_inactive_chunks": 0
+}

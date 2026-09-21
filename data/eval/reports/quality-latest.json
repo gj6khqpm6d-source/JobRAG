@@ -1,0 +1,583 @@
+{
+  "report_version": 1,
+  "generated_at": "2026-09-20T05:31:16.954460+00:00",
+  "duration_seconds": 53.98,
+  "corpus_version": "146|134|555|555|2026-09-13T13:44:28.896984|ff2b566c6194409ec6ec34edb2a9377223b577abac43807484057b2c59b61f5e|BAAI/bge-m3@refs/pr/130",
+  "top_k": 8,
+  "thresholds": {
+    "version": 1,
+    "minimum_questions": 25,
+    "minimum_annotated_answerable_questions": 8,
+    "minimum_recall_at_8": 0.7,
+    "minimum_graded_ndcg_at_8": 0.65,
+    "minimum_filter_accuracy": 1.0,
+    "minimum_analysis_invariant_rate": 1.0,
+    "minimum_citation_validity_rate": 1.0,
+    "minimum_refusal_accuracy": 1.0,
+    "minimum_index_coverage": 1.0,
+    "maximum_active_stale_jobs": 0,
+    "maximum_inactive_chunks": 0
+  },
+  "layers": {
+    "dataset": {
+      "questions": 25,
+      "annotations": 13,
+      "annotated_answerable_questions": 10,
+      "orphaned_job_judgments": 0,
+      "inactive_positive_labels": 1,
+      "missing_evidence_chunks": 16
+    },
+    "retrieval": {
+      "evaluated_questions": 4,
+      "recall_at_8": 0.75,
+      "mrr_at_8": 0.4524,
+      "graded_ndcg_at_8": 0.9084,
+      "filter_accuracy": 1.0,
+      "gate_split": "test",
+      "metric_policy": "Recall@8 plus positive-judgment condensed graded NDCG@8",
+      "overall": {
+        "evaluated_questions": 10,
+        "recall_at_8": 0.7933,
+        "mrr_at_8": 0.681,
+        "graded_ndcg_at_8": 0.9047,
+        "filter_accuracy": 1.0
+      },
+      "development": {
+        "evaluated_questions": 6,
+        "recall_at_8": 0.8222,
+        "mrr_at_8": 0.8333,
+        "graded_ndcg_at_8": 0.9022,
+        "filter_accuracy": 1.0
+      },
+      "test": {
+        "evaluated_questions": 4,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.4524,
+        "graded_ndcg_at_8": 0.9084,
+        "filter_accuracy": 1.0
+      },
+      "rows": [
+        {
+          "id": "skills-01",
+          "split": "development",
+          "retrieved_job_ids": [
+            "287b786ce79a4acfa96159381a8aebe1",
+            "8cf2df484a43484ba93d3f1b5695822b",
+            "a08cb8b411ba46eaa9cd05401c65d057",
+            "583d67c2fdcf4417bef21113441f6e52",
+            "73264a25d7d84344b88c770a27649eac",
+            "ab43675a8aa043f6ad5da206fcfd3276",
+            "a18cad1e69dd407a8f07a0ca18423904",
+            "0936c6448537487e8b997e620e3af1ba"
+          ],
+          "recall_at_8": 0.6,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.8570311151530974,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "skills-02",
+          "split": "development",
+          "retrieved_job_ids": [
+            "ed3796a4540d466f8c05d8a395d335ef",
+            "ac07809e2795409dad980e97eeb49281",
+            "7b65264dff6844e88db646064a361773",
+            "788db75b2d0d4a19956172ec3dee5d09",
+            "0b0a8c1caeb8419d8c8e93584ae68376",
+            "9185abe2554e47acab54067a3d8f1061",
+            "2146da70d6c74982afe8c58942726e8e",
+            "a5fbd58f04244fb48f95fa56fa54c6f8"
+          ],
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 1.0,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "skills-05",
+          "split": "test",
+          "retrieved_job_ids": [
+            "a18cad1e69dd407a8f07a0ca18423904",
+            "583d67c2fdcf4417bef21113441f6e52",
+            "0c207e0a055c4bf8a98ed4e9ffa4716e",
+            "a00ff431187547e9a5522ee42734aff2",
+            "6bbf66299d264051932ce2c8fcaeca87",
+            "4870bbb0ba9f4ea6b09985c91a48e871",
+            "ac07809e2795409dad980e97eeb49281",
+            "54f72060eafc41dcba23243fd3a80d30"
+          ],
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.3333333333333333,
+          "graded_ndcg_at_8": 1.0,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "experience-03",
+          "split": "development",
+          "retrieved_job_ids": [
+            "6f4f33aa727b47aaa36b1e0f3c0d004c",
+            "c402ceefbdf445c6baddfafbe5c8750b",
+            "ab43675a8aa043f6ad5da206fcfd3276",
+            "a00ff431187547e9a5522ee42734aff2",
+            "657e39dd9bc7409a8f167fe5e61d96b4",
+            "91301a37c53d4f7ba57bb04f63492076",
+            "ae3c476bf8114f8ca0a02adad0ccd802",
+            "9984028c8daf43639c8cea87465f55c4"
+          ],
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 1.0,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "experience-05",
+          "split": "test",
+          "retrieved_job_ids": [
+            "583d67c2fdcf4417bef21113441f6e52",
+            "6d60cc5cd3c74292b41dc0e9a4c14ae6",
+            "0c207e0a055c4bf8a98ed4e9ffa4716e",
+            "ab43675a8aa043f6ad5da206fcfd3276",
+            "c402ceefbdf445c6baddfafbe5c8750b",
+            "f8d79f02313449f4886aac6b73ab9e01",
+            "35153e75f5c746ad913e0492b516bb6e",
+            "4870bbb0ba9f4ea6b09985c91a48e871"
+          ],
+          "recall_at_8": 1.0,
+          "mrr_at_8": 0.3333333333333333,
+          "graded_ndcg_at_8": 1.0,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "comparison-01",
+          "split": "development",
+          "retrieved_job_ids": [
+            "443fff2821044262a3d853f1d333aef8",
+            "6bbf66299d264051932ce2c8fcaeca87",
+            "3cc526b790fd4985baedab14c9a64346",
+            "ab43675a8aa043f6ad5da206fcfd3276",
+            "0d7b659cd6a04a5aba8559275faa4735",
+            "ed3796a4540d466f8c05d8a395d335ef",
+            "ac07809e2795409dad980e97eeb49281",
+            "73264a25d7d84344b88c770a27649eac"
+          ],
+          "recall_at_8": 0.3333333333333333,
+          "mrr_at_8": 0.5,
+          "graded_ndcg_at_8": 0.5562983930884396,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "comparison-05",
+          "split": "test",
+          "retrieved_job_ids": [
+            "ae3c476bf8114f8ca0a02adad0ccd802",
+            "657e39dd9bc7409a8f167fe5e61d96b4",
+            "ab43675a8aa043f6ad5da206fcfd3276",
+            "91301a37c53d4f7ba57bb04f63492076",
+            "3765cd3263a64ec7981038b9ff47f8aa",
+            "583d67c2fdcf4417bef21113441f6e52",
+            "ac07809e2795409dad980e97eeb49281",
+            "35153e75f5c746ad913e0492b516bb6e"
+          ],
+          "recall_at_8": 0.3333333333333333,
+          "mrr_at_8": 0.14285714285714285,
+          "graded_ndcg_at_8": 0.7262287617954056,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "filters-01",
+          "split": "development",
+          "retrieved_job_ids": [
+            "ac07809e2795409dad980e97eeb49281",
+            "ed3796a4540d466f8c05d8a395d335ef",
+            "7b65264dff6844e88db646064a361773",
+            "788db75b2d0d4a19956172ec3dee5d09",
+            "9185abe2554e47acab54067a3d8f1061",
+            "2146da70d6c74982afe8c58942726e8e",
+            "0b0a8c1caeb8419d8c8e93584ae68376",
+            "a1039adb0894477d9ba49ca8fc55d763"
+          ],
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 1.0,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "filters-03",
+          "split": "development",
+          "retrieved_job_ids": [
+            "ae3c476bf8114f8ca0a02adad0ccd802",
+            "657e39dd9bc7409a8f167fe5e61d96b4",
+            "3765cd3263a64ec7981038b9ff47f8aa",
+            "0d7b659cd6a04a5aba8559275faa4735",
+            "a9f5415aa320479c9499838f51ea9573",
+            "a00ff431187547e9a5522ee42734aff2",
+            "72c60178160148aa9a021a11eb56ce16",
+            "91301a37c53d4f7ba57bb04f63492076"
+          ],
+          "recall_at_8": 1.0,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 1.0,
+          "filter_accuracy": 1.0
+        },
+        {
+          "id": "filters-05",
+          "split": "test",
+          "retrieved_job_ids": [
+            "443fff2821044262a3d853f1d333aef8",
+            "659e62e8673e4c73acebcb858cd46e9d",
+            "f516efe5cbc546b19a4700b0779a1c70",
+            "229d593e8c76425c9d1ff9b3f972847c",
+            "f8d79f02313449f4886aac6b73ab9e01",
+            "093735ae5bfb4c6a8a6e3cc7c23d40e6",
+            "af47d3c5290447d4bac19abb85468d23",
+            "85e4f3d061094c3d93001b823ed4ad36"
+          ],
+          "recall_at_8": 0.6666666666666666,
+          "mrr_at_8": 1.0,
+          "graded_ndcg_at_8": 0.9072836011519267,
+          "filter_accuracy": 1.0
+        }
+      ]
+    },
+    "analysis": {
+      "evaluated_questions": 18,
+      "invariant_pass_rate": 1.0
+    },
+    "answer": {
+      "evaluated_questions": 25,
+      "citation_validity_rate": 1.0,
+      "refusal_cases": 7,
+      "refusal_accuracy": 0.0,
+      "rows": [
+        {
+          "id": "skills-01",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "aggregate"
+        },
+        {
+          "id": "skills-02",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "skills-03",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "skills-04",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "skills-05",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "experience-01",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 1,
+          "intent": "evidence"
+        },
+        {
+          "id": "experience-02",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "experience-03",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "experience-04",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "experience-05",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "comparison-01",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "comparison-02",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "comparison-03",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "comparison-04",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "comparison-05",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "filters-01",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "aggregate"
+        },
+        {
+          "id": "filters-02",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "filters-03",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "filters-04",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "filters-05",
+          "expected_refusal": false,
+          "actual_refusal": false,
+          "refusal_correct": true,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "insufficient-01",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "insufficient-02",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "aggregate"
+        },
+        {
+          "id": "insufficient-03",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "insufficient-04",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        },
+        {
+          "id": "insufficient-05",
+          "expected_refusal": true,
+          "actual_refusal": false,
+          "refusal_correct": false,
+          "citation_valid": true,
+          "analysis_invariants_valid": true,
+          "source_count": 8,
+          "intent": "evidence"
+        }
+      ],
+      "generation_policy": "deterministic_no_external_llm"
+    },
+    "operations": {
+      "active_jobs": 134,
+      "active_stale_jobs": 0,
+      "active_chunks": 555,
+      "indexed_chunks": 555,
+      "index_coverage": 1.0,
+      "inactive_chunks": 0
+    }
+  },
+  "gates": [
+    {
+      "name": "评估问题数量",
+      "actual": 25,
+      "expected": ">=25",
+      "passed": true
+    },
+    {
+      "name": "人工校准题数量",
+      "actual": 10,
+      "expected": ">=8",
+      "passed": true
+    },
+    {
+      "name": "Recall@8",
+      "actual": 0.75,
+      "expected": ">=0.7",
+      "passed": true
+    },
+    {
+      "name": "NDCG@8",
+      "actual": 0.9084,
+      "expected": ">=0.65",
+      "passed": true
+    },
+    {
+      "name": "元数据过滤准确率",
+      "actual": 1.0,
+      "expected": ">=1.0",
+      "passed": true
+    },
+    {
+      "name": "分析不变量通过率",
+      "actual": 1.0,
+      "expected": ">=1.0",
+      "passed": true
+    },
+    {
+      "name": "引用有效率",
+      "actual": 1.0,
+      "expected": ">=1.0",
+      "passed": true
+    },
+    {
+      "name": "拒答准确率",
+      "actual": 0.0,
+      "expected": ">=1.0",
+      "passed": false
+    },
+    {
+      "name": "向量索引覆盖率",
+      "actual": 1.0,
+      "expected": ">=1.0",
+      "passed": true
+    },
+    {
+      "name": "有效但过期岗位",
+      "actual": 0,
+      "expected": "<=0",
+      "passed": true
+    },
+    {
+      "name": "失效岗位残留片段",
+      "actual": 0,
+      "expected": "<=0",
+      "passed": true
+    }
+  ],
+  "passed": false
+}

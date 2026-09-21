@@ -8,3 +8,13 @@
 *.pyc
 .env
 dist
+.venv/
+# Runtime data stays local; keep the reproducible evaluation contract and datasets.
+data/*
+!data/eval/
+!data/eval/**
+!data/jobrag/
+!data/jobrag/business_contract.json
+data/jobrag.db
+data/models/
+.env

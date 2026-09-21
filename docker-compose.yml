@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: jobrag
+      POSTGRES_USER: jobrag
+      POSTGRES_PASSWORD: jobrag
+    ports:
+      - "5432:5432"
+    volumes:
+      - jobrag-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobrag -d jobrag"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  jobrag-postgres:

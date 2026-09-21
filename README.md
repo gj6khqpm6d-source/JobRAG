@@ -2,6 +2,70 @@
 
 **JobSpy** is a job scraping library with the goal of aggregating all the jobs from popular job boards with one tool.
 
+## Local Web App
+
+JobRAG 的业务目标、阶段划分、验收标准和生产化要求记录在
+[JobRAG 业务设计骨架](docs/jobrag_business_design.md) 中。后续开发以该文档为指导，具体实现阶段需先确认设计，再执行和验收。
+
+This repository includes a local web interface for all JobSpy sites and search options.
+
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+Open <http://127.0.0.1:8000>. The first run creates an isolated Python 3.11 environment and installs dependencies. Set a different port with `JOBSPY_PORT=9000 ./run.sh`.
+
+The web app runs searches in the background, keeps partial results if an individual board is blocked, and exports the current result set to CSV or Excel. Search results live in memory and are cleared when the server restarts.
+
+Every successful scrape is also persisted to the JobRAG knowledge base. Without configuration the app uses `data/jobrag.db` as a development fallback. The target deployment uses PostgreSQL with pgvector:
+
+```bash
+cp .env.example .env
+docker compose up -d postgres
+# Set DATABASE_URL in .env to the PostgreSQL example, then:
+.venv/bin/alembic upgrade head
+./run.sh
+```
+
+Knowledge-base APIs:
+
+- `GET /api/kb/stats` — stored job and snapshot counts
+- `GET /api/kb/contract` — active machine-readable JobRAG business contract
+- `GET /api/kb/jobs` — browse persisted jobs with `query`, `source`, `limit`, and `offset`
+- `POST /api/kb/backfill/linkedin` — backfill missing LinkedIn descriptions and create chunks
+- `GET /api/kb/index` — view chunk and embedding index status
+- `POST /api/kb/index` — index pending chunks with local BGE-M3
+- `POST /api/kb/retrieve` — hybrid retrieval with optional metadata filters
+- `POST /api/kb/ask` — evidence-grounded answer generation with DeepSeek
+
+Embeddings run locally with `BAAI/bge-m3` and require no API key. The model is downloaded into `data/models` on first use and reused offline afterwards. Cloudflare remains available as an optional fallback. Keep any API credentials in `.env`; never commit that file.
+
+LinkedIn full-description retrieval is enabled by default because jobs without descriptions cannot participate in RAG. The knowledge-base page reports total jobs, searchable jobs, missing descriptions, and description coverage separately. Existing LinkedIn rows can be repaired with **补全缺失描述** before generating their pending local vectors.
+
+### Enable RAG
+
+1. Run `./run.sh`, open **RAG 知识库**, and click **生成本地向量**. The first run downloads BGE-M3; later runs use the local cache.
+2. When answer generation is needed, add `DEEPSEEK_API_KEY` and choose a `DEEPSEEK_MODEL` in `.env`, then restart again.
+
+The current development mode uses SQLite so scraping, persistence, chunking, and the UI work without Docker. For the target PostgreSQL deployment, install Docker Desktop (or PostgreSQL with pgvector), switch `DATABASE_URL`, run `alembic upgrade head`, and restart the app. The PostgreSQL migration creates an HNSW vector index and a GIN full-text index; retrieval fuses vector and keyword rankings and keeps metadata filters in the database query.
+
+SQLite retrieval now creates a local FTS5/BM25 index (`job_chunks_fts`) when chunks are prepared. The index is fused with BGE-M3 results by rank (RRF), so exact terms such as model names and technologies complement semantic matches. The query layer also adds a small, deterministic Chinese-to-English retrieval vocabulary (for example `实习` → `internship`, `岗位要求` → `requirements`) while preserving the original question for answer generation. If the Python SQLite build does not include FTS5, retrieval falls back to the deterministic lexical scorer.
+
+After adding or changing jobs, use `POST /api/kb/index` (or **生成本地向量** in the UI) to fill pending embeddings. FTS5 is rebuilt automatically when chunks are prepared; it does not require a separate service.
+
+RAG data flow:
+
+```text
+JobSpy scrape -> normalize/deduplicate -> job snapshots -> semantic chunks
+             -> local BGE-M3 embeddings -> pgvector + full-text retrieval
+             -> evidence-only DeepSeek prompt -> answer with job citations
+```
+
+岗位描述进入知识库前会按业务相关章节进行结构化处理：保留职责、任职要求、技能、经验、教育和项目等章节，过滤公司背景、福利、薪资、申请流程和法律声明；章节内优先按段落或列表项成块，只有超长文本才使用重叠切分。
+
+问答请求会先经过确定性路由：具体岗位要求走证据检索；统计类问题走岗位分析流程；明显不属于招聘知识库的问题直接拒答。当前开发实现仍保留部分全库统计逻辑作为过渡，目标业务行为是先筛选相关岗位候选集，再进行岗位级技能统计，详见 [JobRAG 业务设计骨架](docs/jobrag_business_design.md)。检索结果和最终答案都写入本地、带语料版本号的 SQLite 缓存；新岗位、片段变化或向量回填后版本自动变化，旧缓存不会被复用。
+
 ## Features
 
 - Scrapes job postings from **LinkedIn**, **Indeed**, **Glassdoor**, **Google**, **ZipRecruiter**, & other job boards concurrently

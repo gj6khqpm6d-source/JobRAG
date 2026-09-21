@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>JobRAG · 私人岗位知识库</title>
+  <link rel="stylesheet" href="/static/styles.css?v=9">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">J</span><span>JobRAG</span></a>
+    <nav class="nav-tabs" aria-label="主导航">
+      <button class="nav-tab active" data-view="kb-view">AI 知识库问答</button>
+      <button class="nav-tab" data-view="search-view">抓取新岗位</button>
+    </nav>
+    <div class="local-badge"><i></i> 本地运行</div>
+  </header>
+
+  <main>
+    <div id="search-view" class="app-view hidden">
+    <section class="hero">
+      <p class="eyebrow">ONE SEARCH · EIGHT JOB BOARDS</p>
+      <h1>把散落的机会，<br><em>收进一张表。</em></h1>
+      <p class="subhead">并行搜索多个招聘平台，在本机筛选、查看并导出结果。</p>
+    </section>
+
+    <section class="search-panel">
+      <form id="search-form">
+        <div class="main-fields">
+          <label><span>职位关键词</span><input id="search_term" placeholder="例如：Data Engineer" required></label>
+          <label><span>地点</span><input id="location" placeholder="例如：Singapore"></label>
+          <label class="compact"><span>每站数量</span><input id="results_wanted" type="number" min="1" max="1000" value="20"></label>
+          <button class="primary" type="submit"><span>开始搜索</span><b>↗</b></button>
+        </div>
+
+        <fieldset class="sites"><legend>数据来源</legend><div id="sites"></div></fieldset>
+
+        <details>
+          <summary>高级筛选 <span>⌄</span></summary>
+          <div class="advanced-grid">
+            <label><span>国家 / 地区（Indeed、Glassdoor）</span><select id="country_indeed"></select></label>
+            <label><span>距离（英里）</span><input id="distance" type="number" min="0" max="1000" value="50"></label>
+            <label><span>职位类型</span><select id="job_type"><option value="">不限</option><option value="fulltime">全职</option><option value="parttime">兼职</option><option value="contract">合同</option><option value="temporary">临时</option><option value="internship">实习</option></select></label>
+            <label><span>发布时间（小时内）</span><input id="hours_old" type="number" min="1" placeholder="例如：72"></label>
+            <label><span>起始偏移</span><input id="offset" type="number" min="0" value="0"></label>
+            <label><span>描述格式</span><select id="description_format"><option value="markdown">Markdown</option><option value="plain">纯文本</option><option value="html">HTML</option></select></label>
+            <label class="wide"><span>Google Jobs 完整搜索语句</span><input id="google_search_term" placeholder="留空时自动由关键词和地点生成"></label>
+            <label class="wide"><span>代理（每行一个）</span><textarea id="proxies" rows="2" placeholder="user:pass@host:port"></textarea></label>
+            <label><span>LinkedIn 公司 ID（逗号分隔）</span><input id="linkedin_company_ids" placeholder="12345, 67890"></label>
+            <label><span>自定义 User-Agent</span><input id="user_agent" placeholder="可选"></label>
+            <label><span>CA 证书路径</span><input id="ca_cert" placeholder="可选，本地绝对路径"></label>
+            <div class="switches">
+              <label><input id="is_remote" type="checkbox"><span>仅远程职位</span></label>
+              <label><input id="easy_apply" type="checkbox"><span>Easy Apply</span></label>
+              <label><input id="linkedin_fetch_description" type="checkbox" checked><span>获取 LinkedIn 完整描述（知识库必需）</span></label>
+              <label><input id="enforce_annual_salary" type="checkbox"><span>薪资统一年薪</span></label>
+            </div>
+          </div>
+        </details>
+      </form>
+    </section>
+
+    <section id="status" class="status hidden"></section>
+
+    <section id="results-section" class="results hidden">
+      <div class="results-head">
+        <div><p class="eyebrow">SEARCH RESULTS</p><h2><span id="result-count">0</span> 个职位</h2></div>
+        <div class="actions"><button id="go-kb" class="button accent" type="button">用这些岗位向 AI 提问</button><input id="filter" placeholder="在结果中筛选…"><a id="csv" class="button">CSV</a><a id="xlsx" class="button">Excel</a></div>
+      </div>
+      <div id="site-summary" class="summary"></div>
+      <div class="table-wrap"><table><thead><tr><th>职位</th><th>公司</th><th>地点</th><th>来源</th><th>薪资</th><th>发布日期</th><th></th></tr></thead><tbody id="jobs"></tbody></table></div>
+      <div id="empty" class="empty hidden">没有匹配当前筛选的职位。</div>
+    </section>
+    </div>
+
+    <div id="kb-view" class="app-view">
+      <section class="kb-hero">
+        <div>
+          <p class="eyebrow">PRIVATE JOB INTELLIGENCE</p>
+          <h1>让岗位数据，<br><em>回答你的问题。</em></h1>
+          <p class="subhead">答案只基于已抓取职位，并附上可核查的岗位来源。</p>
+        </div>
+        <div id="kb-stats" class="stat-grid"></div>
+      </section>
+
+      <section class="ask-panel">
+        <form id="ask-form">
+          <label><span>向岗位知识库提问</span><textarea id="kb-question" rows="4" required placeholder="例如：新加坡 RAG Engineer 岗位最常见的技术要求是什么？"></textarea></label>
+          <div class="rag-controls">
+            <label><span>来源</span><select id="rag-source"><option value="">全部来源</option></select></label>
+            <label><span>地点</span><input id="rag-location" placeholder="例如：Singapore"></label>
+            <label><span>职位关键词</span><input id="rag-title" placeholder="例如：RAG Engineer"></label>
+            <label><span>职位类型</span><select id="rag-job-type"><option value="">不限</option><option value="fulltime">全职</option><option value="parttime">兼职</option><option value="contract">合同</option><option value="temporary">临时</option><option value="internship">实习</option></select></label>
+            <label><span>证据数量</span><input id="rag-top-k" type="number" min="1" max="30" value="8"></label>
+            <button id="ask-button" class="primary" type="submit"><span>分析岗位要求</span><b>↗</b></button>
+          </div>
+        </form>
+        <div id="rag-answer" class="rag-answer hidden"></div>
+      </section>
+
+      <section class="knowledge-section">
+        <div class="knowledge-head">
+          <div><p class="eyebrow">KNOWLEDGE BASE</p><h2>知识库状态</h2></div>
+          <div class="knowledge-actions"><button id="backfill-button" class="button accent" type="button">补全缺失描述</button><button id="index-button" class="button" type="button">生成本地向量</button></div>
+        </div>
+        <div id="coverage-status" class="coverage-status"></div>
+        <div id="index-status" class="index-status"></div>
+        <div id="knowledge-jobs" class="knowledge-jobs"></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="detail"><button class="close" aria-label="关闭">×</button><div id="detail-content"></div></dialog>
+  <div id="toast" class="toast hidden"></div>
+  <script src="/static/app.js?v=10"></script>
+</body>
+</html>
