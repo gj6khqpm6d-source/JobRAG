@@ -1,326 +1,100 @@
-<img src="https://github.com/cullenwatson/JobSpy/assets/78247585/ae185b7e-e444-4712-8bb9-fa97f53e896b" width="400">
+<div align="center">
 
-**JobSpy** is a job scraping library with the goal of aggregating all the jobs from popular job boards with one tool.
+<h1>JobRAG</h1>
 
-## Local Web App
+<h3>Explore what employers ask for—with evidence from real job postings.</h3>
 
-JobRAG 的业务目标、阶段划分、验收标准和生产化要求记录在
-[JobRAG 业务设计骨架](docs/jobrag_business_design.md) 中。后续开发以该文档为指导，具体实现阶段需先确认设计，再执行和验收。
+<p>JobRAG turns scraped job descriptions into a private, searchable knowledge base for job-market research.</p>
 
-This repository includes a local web interface for all JobSpy sites and search options.
+<p><a href="README.zh-CN.md">简体中文</a> · <strong>English</strong></p>
+
+<p>
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" />
+  <img src="https://img.shields.io/badge/FastAPI-Web%20App-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Embedding-BGE--M3-6B8E23?style=for-the-badge" alt="BGE-M3" />
+  <img src="https://img.shields.io/github/license/gj6khqpm6d-source/JobRAG?style=for-the-badge" alt="License" />
+</p>
+
+<p><a href="#features">Features</a> · <a href="#architecture">Architecture</a> · <a href="#quick-start">Quick Start</a> · <a href="#evaluation">Evaluation</a> · <a href="#upstream-project-and-license">Upstream &amp; License</a></p>
+
+</div>
+
+---
+
+<p align="center">
+  <img src="docs/images/jobrag-demo.gif" alt="JobRAG UI walkthrough: job search, role-filtered question, and daily update controls" width="960" />
+  <br />
+  <sub>Current application UI (Chinese): job search, question filters, and daily update controls.</sub>
+</p>
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[Job boards] --> B[JobSpy collection]
+    B --> C[Normalize · deduplicate · snapshot]
+    C --> D[Relevant sections · structured chunks]
+    D --> E[Local BGE-M3 + lexical index]
+    E --> F[Filtered hybrid retrieval]
+    F --> G{Enough evidence?}
+    G -->|Yes| H[DeepSeek answer + job citations]
+    G -->|No| I[Evidence-based refusal]
+```
+
+## Features
+
+| | Capability | What it does |
+|:--:|---|---|
+| 🔎 | **Job collection** | Search supported job boards through JobSpy and the local web UI; deduplicate postings and keep content snapshots. |
+| 🧩 | **Role-aware indexing** | Keep relevant description sections—responsibilities, qualifications, skills, experience, education, and projects—and chunk along the source structure. |
+| 🧠 | **Local embeddings** | Run `BAAI/bge-m3` locally; no embedding API key is needed. The model is cached under `data/models/`. |
+| ⚖️ | **Hybrid retrieval** | Combine vector and lexical search (SQLite FTS5/BM25 by default), apply job filters, and assemble evidence at the job level. PostgreSQL + pgvector is also supported. |
+| 💬 | **Evidence-grounded answers** | Optionally use DeepSeek to answer with job citations, or refuse when evidence is insufficient. |
+| 📈 | **Quality & operations** | Evaluate retrieval and answers; use versioned caching, request/token metrics, 60-day job lifecycle management, and embedding failure recovery. |
+| 🔄 | **Daily updates** | Collect up to 10 postings per source at 09:00 Singapore time and index up to 100 chunks per run. The local service must be running. Embedding failures are retried up to three times before manual recovery is offered. |
+
+## Quick start
+
+Requirements: Python 3.11 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-chmod +x run.sh
 ./run.sh
 ```
 
-Open <http://127.0.0.1:8000>. The first run creates an isolated Python 3.11 environment and installs dependencies. Set a different port with `JOBSPY_PORT=9000 ./run.sh`.
+Open <http://127.0.0.1:8000>. The script creates `.venv` and installs the application dependencies on first run. The default local development database is SQLite at `data/jobrag.db`.
 
-The web app runs searches in the background, keeps partial results if an individual board is blocked, and exports the current result set to CSV or Excel. Search results live in memory and are cleared when the server restarts.
+Open **RAG Knowledge Base**, run a search to collect postings, then click **生成本地向量** (Generate local embeddings). The first embedding run downloads BGE-M3 and may take a while. To ask questions with generated answers, add your DeepSeek key to `.env` and restart the service:
 
-Every successful scrape is also persisted to the JobRAG knowledge base. Without configuration the app uses `data/jobrag.db` as a development fallback. The target deployment uses PostgreSQL with pgvector:
+```dotenv
+DEEPSEEK_API_KEY=your-key
+DEEPSEEK_MODEL=deepseek-v4-flash
+```
+
+Never commit `.env`. Local scraping, storage, and BGE-M3 embedding do not require a DeepSeek key.
+
+## Evaluation and design
+
+- [Business design and implementation guidance](docs/jobrag_business_design.md)
+- [Evaluation datasets and reports](data/eval/README.md)
+
+The evaluation workflow covers retrieval relevance, answer grounding and citations, relevance, completeness, refusal behavior, and operational signals. Evaluation reports are development artifacts, not a claim of production-level quality.
+
+## PostgreSQL option
+
+SQLite is the zero-setup default. To run PostgreSQL with pgvector locally, start the provided service, set `DATABASE_URL` in `.env` to the PostgreSQL URL shown in `.env.example`, apply migrations, and start JobRAG:
 
 ```bash
 cp .env.example .env
 docker compose up -d postgres
-# Set DATABASE_URL in .env to the PostgreSQL example, then:
+# Set DATABASE_URL in .env to the PostgreSQL URL from .env.example.
 .venv/bin/alembic upgrade head
 ./run.sh
 ```
 
-Knowledge-base APIs:
+## Upstream project and license
 
-- `GET /api/kb/stats` — stored job and snapshot counts
-- `GET /api/kb/contract` — active machine-readable JobRAG business contract
-- `GET /api/kb/jobs` — browse persisted jobs with `query`, `source`, `limit`, and `offset`
-- `POST /api/kb/backfill/linkedin` — backfill missing LinkedIn descriptions and create chunks
-- `GET /api/kb/index` — view chunk and embedding index status
-- `POST /api/kb/index` — index pending chunks with local BGE-M3
-- `POST /api/kb/retrieve` — hybrid retrieval with optional metadata filters
-- `POST /api/kb/ask` — evidence-grounded answer generation with DeepSeek
+JobRAG is built in this repository on the **JobSpy** codebase; JobSpy provides the underlying job-board collection components. This repository retains the upstream project history and its MIT license. See the [JobSpy project](https://github.com/speedyapply/JobSpy) for its original scraper documentation and attribution; see [LICENSE](LICENSE) for license terms.
 
-Embeddings run locally with `BAAI/bge-m3` and require no API key. The model is downloaded into `data/models` on first use and reused offline afterwards. Cloudflare remains available as an optional fallback. Keep any API credentials in `.env`; never commit that file.
+## Current scope
 
-LinkedIn full-description retrieval is enabled by default because jobs without descriptions cannot participate in RAG. The knowledge-base page reports total jobs, searchable jobs, missing descriptions, and description coverage separately. Existing LinkedIn rows can be repaired with **补全缺失描述** before generating their pending local vectors.
-
-### Enable RAG
-
-1. Run `./run.sh`, open **RAG 知识库**, and click **生成本地向量**. The first run downloads BGE-M3; later runs use the local cache.
-2. When answer generation is needed, add `DEEPSEEK_API_KEY` and choose a `DEEPSEEK_MODEL` in `.env`, then restart again.
-
-The current development mode uses SQLite so scraping, persistence, chunking, and the UI work without Docker. For the target PostgreSQL deployment, install Docker Desktop (or PostgreSQL with pgvector), switch `DATABASE_URL`, run `alembic upgrade head`, and restart the app. The PostgreSQL migration creates an HNSW vector index and a GIN full-text index; retrieval fuses vector and keyword rankings and keeps metadata filters in the database query.
-
-SQLite retrieval now creates a local FTS5/BM25 index (`job_chunks_fts`) when chunks are prepared. The index is fused with BGE-M3 results by rank (RRF), so exact terms such as model names and technologies complement semantic matches. The query layer also adds a small, deterministic Chinese-to-English retrieval vocabulary (for example `实习` → `internship`, `岗位要求` → `requirements`) while preserving the original question for answer generation. If the Python SQLite build does not include FTS5, retrieval falls back to the deterministic lexical scorer.
-
-After adding or changing jobs, use `POST /api/kb/index` (or **生成本地向量** in the UI) to fill pending embeddings. FTS5 is rebuilt automatically when chunks are prepared; it does not require a separate service.
-
-RAG data flow:
-
-```text
-JobSpy scrape -> normalize/deduplicate -> job snapshots -> semantic chunks
-             -> local BGE-M3 embeddings -> pgvector + full-text retrieval
-             -> evidence-only DeepSeek prompt -> answer with job citations
-```
-
-岗位描述进入知识库前会按业务相关章节进行结构化处理：保留职责、任职要求、技能、经验、教育和项目等章节，过滤公司背景、福利、薪资、申请流程和法律声明；章节内优先按段落或列表项成块，只有超长文本才使用重叠切分。
-
-问答请求会先经过确定性路由：具体岗位要求走证据检索；统计类问题走岗位分析流程；明显不属于招聘知识库的问题直接拒答。当前开发实现仍保留部分全库统计逻辑作为过渡，目标业务行为是先筛选相关岗位候选集，再进行岗位级技能统计，详见 [JobRAG 业务设计骨架](docs/jobrag_business_design.md)。检索结果和最终答案都写入本地、带语料版本号的 SQLite 缓存；新岗位、片段变化或向量回填后版本自动变化，旧缓存不会被复用。
-
-知识库页面支持每日 09:00（新加坡时间）自动增量抓取，可配置关键词、地点、来源和职位类型。默认每来源最多抓取 10 条、回看 72 小时；相同岗位会去重，只有新增或变化的岗位需要重新分块和 Embedding。为控制本地 BGE-M3 负载，每次调度最多处理 100 个待嵌入片段；失败来源最多重试一次，Embedding 失败按片段持久记录，最多自动重试 3 次，并在状态区显示失败数、积压时长和告警。连续失败的片段不会继续自动消耗资源，可通过“手动重试失败片段”恢复。以上不调用 DeepSeek。调度器需要本地 Web 服务保持运行，服务关闭期间不会按时抓取，重新启动后若当天尚未运行会补跑当天任务。
-
-## Features
-
-- Scrapes job postings from **LinkedIn**, **Indeed**, **Glassdoor**, **Google**, **ZipRecruiter**, & other job boards concurrently
-- Aggregates the job postings in a dataframe
-- Proxies support to bypass blocking
-
-![jobspy](https://github.com/cullenwatson/JobSpy/assets/78247585/ec7ef355-05f6-4fd3-8161-a817e31c5c57)
-
-### Installation
-
-```
-pip install -U python-jobspy
-```
-
-_Python version >= [3.10](https://www.python.org/downloads/release/python-3100/) required_
-
-### Usage
-
-```python
-import csv
-from jobspy import scrape_jobs
-
-jobs = scrape_jobs(
-    site_name=["indeed", "linkedin", "zip_recruiter", "google"], # "glassdoor", "bayt", "naukri", "bdjobs"
-    search_term="software engineer",
-    google_search_term="software engineer jobs near San Francisco, CA since yesterday",
-    location="San Francisco, CA",
-    results_wanted=20,
-    hours_old=72,
-    country_indeed='USA',
-    
-    # linkedin_fetch_description=True # gets more info such as description, direct job url (slower)
-    # proxies=["208.195.175.46:65095", "208.195.175.45:65095", "localhost"],
-)
-print(f"Found {len(jobs)} jobs")
-print(jobs.head())
-jobs.to_csv("jobs.csv", quoting=csv.QUOTE_NONNUMERIC, escapechar="\\", index=False) # to_excel
-```
-
-### Output
-
-```
-SITE           TITLE                             COMPANY           CITY          STATE  JOB_TYPE  INTERVAL  MIN_AMOUNT  MAX_AMOUNT  JOB_URL                                            DESCRIPTION
-indeed         Software Engineer                 AMERICAN SYSTEMS  Arlington     VA     None      yearly    200000      150000      https://www.indeed.com/viewjob?jk=5e409e577046...  THIS POSITION COMES WITH A 10K SIGNING BONUS!...
-indeed         Senior Software Engineer          TherapyNotes.com  Philadelphia  PA     fulltime  yearly    135000      110000      https://www.indeed.com/viewjob?jk=da39574a40cb...  About Us TherapyNotes is the national leader i...
-linkedin       Software Engineer - Early Career  Lockheed Martin   Sunnyvale     CA     fulltime  yearly    None        None        https://www.linkedin.com/jobs/view/3693012711      Description:By bringing together people that u...
-linkedin       Full-Stack Software Engineer      Rain              New York      NY     fulltime  yearly    None        None        https://www.linkedin.com/jobs/view/3696158877      Rain’s mission is to create the fastest and ea...
-zip_recruiter Software Engineer - New Grad       ZipRecruiter      Santa Monica  CA     fulltime  yearly    130000      150000      https://www.ziprecruiter.com/jobs/ziprecruiter...  We offer a hybrid work environment. Most US-ba...
-zip_recruiter Software Developer                 TEKsystems        Phoenix       AZ     fulltime  hourly    65          75          https://www.ziprecruiter.com/jobs/teksystems-0...  Top Skills' Details• 6 years of Java developme...
-
-```
-
-### Parameters for `scrape_jobs()`
-
-```plaintext
-Optional
-├── site_name (list|str): 
-|    linkedin, zip_recruiter, indeed, glassdoor, google, bayt, bdjobs
-|    (default is all)
-│
-├── search_term (str)
-|
-├── google_search_term (str)
-|     search term for google jobs. This is the only param for filtering google jobs.
-│
-├── location (str)
-│
-├── distance (int): 
-|    in miles, default 50
-│
-├── job_type (str): 
-|    fulltime, parttime, internship, contract
-│
-├── proxies (list): 
-|    in format ['user:pass@host:port', 'localhost']
-|    each job board scraper will round robin through the proxies
-|
-├── is_remote (bool)
-│
-├── results_wanted (int): 
-|    number of job results to retrieve for each site specified in 'site_name'
-│
-├── easy_apply (bool): 
-|    filters for jobs that are hosted on the job board site (LinkedIn easy apply filter no longer works)
-|
-├── user_agent (str): 
-|    override the default user agent which may be outdated
-│
-├── description_format (str): 
-|    markdown, html (Format type of the job descriptions. Default is markdown.)
-│
-├── offset (int): 
-|    starts the search from an offset (e.g. 25 will start the search from the 25th result)
-│
-├── hours_old (int): 
-|    filters jobs by the number of hours since the job was posted 
-|    (ZipRecruiter and Glassdoor round up to next day.)
-│
-├── verbose (int) {0, 1, 2}: 
-|    Controls the verbosity of the runtime printouts 
-|    (0 prints only errors, 1 is errors+warnings, 2 is all logs. Default is 2.)
-
-├── linkedin_fetch_description (bool): 
-|    fetches full description and direct job url for LinkedIn (Increases requests by O(n))
-│
-├── linkedin_company_ids (list[int]): 
-|    searches for linkedin jobs with specific company ids
-|
-├── country_indeed (str): 
-|    filters the country on Indeed & Glassdoor (see below for correct spelling)
-|
-├── enforce_annual_salary (bool): 
-|    converts wages to annual salary
-|
-├── ca_cert (str)
-|    path to CA Certificate file for proxies
-```
-
-```
-├── Indeed limitations:
-|    Only one from this list can be used in a search:
-|    - hours_old
-|    - job_type & is_remote
-|    - easy_apply
-│
-└── LinkedIn limitations:
-|    Only one from this list can be used in a search:
-|    - hours_old
-|    - easy_apply
-```
-
-## Supported Countries for Job Searching
-
-### **LinkedIn**
-
-LinkedIn searches globally & uses only the `location` parameter. 
-
-### **ZipRecruiter**
-
-ZipRecruiter searches for jobs in **US/Canada** & uses only the `location` parameter.
-
-### **Indeed / Glassdoor**
-
-Indeed & Glassdoor supports most countries, but the `country_indeed` parameter is required. Additionally, use the `location`
-parameter to narrow down the location, e.g. city & state if necessary. 
-
-You can specify the following countries when searching on Indeed (use the exact name, * indicates support for Glassdoor):
-
-|                      |              |            |                |
-|----------------------|--------------|------------|----------------|
-| Argentina            | Australia*   | Austria*   | Bahrain        |
-| Belgium*             | Brazil*      | Canada*    | Chile          |
-| China                | Colombia     | Costa Rica | Czech Republic |
-| Denmark              | Ecuador      | Egypt      | Finland        |
-| France*              | Germany*     | Greece     | Hong Kong*     |
-| Hungary              | India*       | Indonesia  | Ireland*       |
-| Israel               | Italy*       | Japan      | Kuwait         |
-| Luxembourg           | Malaysia     | Mexico*    | Morocco        |
-| Netherlands*         | New Zealand* | Nigeria    | Norway         |
-| Oman                 | Pakistan     | Panama     | Peru           |
-| Philippines          | Poland       | Portugal   | Qatar          |
-| Romania              | Saudi Arabia | Singapore* | South Africa   |
-| South Korea          | Spain*       | Sweden     | Switzerland*   |
-| Taiwan               | Thailand     | Turkey     | Ukraine        |
-| United Arab Emirates | UK*          | USA*       | Uruguay        |
-| Venezuela            | Vietnam*     |            |                |
-
-### **Bayt**
-
-Bayt only uses the search_term parameter currently and searches internationally
-
-
-
-## Notes
-* Indeed is the best scraper currently with no rate limiting.  
-* All the job board endpoints are capped at around 1000 jobs on a given search.  
-* LinkedIn is the most restrictive and usually rate limits around the 10th page with one ip. Proxies are a must basically.
-
-## Frequently Asked Questions
-
----
-**Q: Why is Indeed giving unrelated roles?**  
-**A:** Indeed searches the description too.
-
-- use - to remove words
-- "" for exact match
-
-Example of a good Indeed query
-
-```py
-search_term='"engineering intern" software summer (java OR python OR c++) 2025 -tax -marketing'
-```
-
-This searches the description/title and must include software, summer, 2025, one of the languages, engineering intern exactly, no tax, no marketing.
-
----
-
-**Q: No results when using "google"?**  
-**A:** You have to use super specific syntax. Search for google jobs on your browser and then whatever pops up in the google jobs search box after applying some filters is what you need to copy & paste into the google_search_term. 
-
----
-
-**Q: Received a response code 429?**  
-**A:** This indicates that you have been blocked by the job board site for sending too many requests. All of the job board sites are aggressive with blocking. We recommend:
-
-- Wait some time between scrapes (site-dependent).
-- Try using the proxies param to change your IP address.
-
----
-
-### JobPost Schema
-
-```plaintext
-JobPost
-├── title
-├── company
-├── company_url
-├── job_url
-├── location
-│   ├── country
-│   ├── city
-│   ├── state
-├── is_remote
-├── description
-├── job_type: fulltime, parttime, internship, contract
-├── job_function
-│   ├── interval: yearly, monthly, weekly, daily, hourly
-│   ├── min_amount
-│   ├── max_amount
-│   ├── currency
-│   └── salary_source: direct_data, description (parsed from posting)
-├── date_posted
-└── emails
-
-Linkedin specific
-└── job_level
-
-Linkedin & Indeed specific
-└── company_industry
-
-Indeed specific
-├── company_country
-├── company_addresses
-├── company_employees_label
-├── company_revenue_label
-├── company_description
-└── company_logo
-
-Naukri specific
-├── skills
-├── experience_range
-├── company_rating
-├── company_reviews_count
-├── vacancy_count
-└── work_from_home_type
-```
+JobRAG is designed for personal use and controlled testing. The scheduled collector runs inside the local web-service process, so the computer and service need to remain on for the scheduled run. Public deployment still requires additional authentication, HTTPS, backup/recovery, and production operations work.
