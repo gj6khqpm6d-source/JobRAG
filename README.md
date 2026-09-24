@@ -66,6 +66,8 @@ JobSpy scrape -> normalize/deduplicate -> job snapshots -> semantic chunks
 
 问答请求会先经过确定性路由：具体岗位要求走证据检索；统计类问题走岗位分析流程；明显不属于招聘知识库的问题直接拒答。当前开发实现仍保留部分全库统计逻辑作为过渡，目标业务行为是先筛选相关岗位候选集，再进行岗位级技能统计，详见 [JobRAG 业务设计骨架](docs/jobrag_business_design.md)。检索结果和最终答案都写入本地、带语料版本号的 SQLite 缓存；新岗位、片段变化或向量回填后版本自动变化，旧缓存不会被复用。
 
+知识库页面支持每日 09:00（新加坡时间）自动增量抓取，可配置关键词、地点、来源和职位类型。默认每来源最多抓取 10 条、回看 72 小时；相同岗位会去重，只有新增或变化的岗位需要重新分块和 Embedding。为控制本地 BGE-M3 负载，每次调度最多处理 100 个待嵌入片段；失败来源最多重试一次，Embedding 失败按片段持久记录，最多自动重试 3 次，并在状态区显示失败数、积压时长和告警。连续失败的片段不会继续自动消耗资源，可通过“手动重试失败片段”恢复。以上不调用 DeepSeek。调度器需要本地 Web 服务保持运行，服务关闭期间不会按时抓取，重新启动后若当天尚未运行会补跑当天任务。
+
 ## Features
 
 - Scrapes job postings from **LinkedIn**, **Indeed**, **Glassdoor**, **Google**, **ZipRecruiter**, & other job boards concurrently

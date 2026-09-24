@@ -4,6 +4,7 @@ from sqlalchemy.pool import StaticPool
 
 from app.db.models import Base, JobChunk
 from app.db.repository import upsert_jobs
+from app.rag.cache import corpus_version
 from app.rag.providers import EmbeddingProvider, LLMProvider
 from app.rag.service import answer_question
 from app.rag.retrieval import RetrievalFilters
@@ -89,6 +90,35 @@ def test_answer_cache_avoids_second_embedding_and_llm_call():
     assert second["cache_hit"] is True
     assert embedding.calls == 1
     assert llm.calls == 1
+
+
+def test_unchanged_scrape_does_not_invalidate_corpus_cache_version():
+    engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+    Base.metadata.create_all(engine)
+    factory = sessionmaker(bind=engine, expire_on_commit=False)
+    record = {
+        "id": "stable-1",
+        "site": "linkedin",
+        "title": "AI Agent Intern",
+        "company": "Example",
+        "location": "Singapore",
+        "job_type": "internship",
+        "job_url": "https://example/stable-1",
+        "description": "Requirements\n\nPython and retrieval systems.",
+        "date_posted": "2026-09-20",
+    }
+    upsert_jobs(factory, [record])
+    from app.rag.indexing import prepare_chunks
+
+    prepare_chunks(factory)
+    before_refresh = corpus_version(factory)
+    upsert_jobs(factory, [record])
+    after_unchanged_refresh = corpus_version(factory)
+    assert after_unchanged_refresh == before_refresh
+
+    changed = {**record, "description": "Requirements\n\nPython, retrieval, and evaluation."}
+    upsert_jobs(factory, [changed])
+    assert corpus_version(factory) != before_refresh
 
 
 def test_aggregate_route_analyzes_ranked_jobs_with_job_level_statistics():

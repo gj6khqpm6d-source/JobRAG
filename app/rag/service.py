@@ -35,6 +35,30 @@ RETRIEVAL_CACHE_TTL = 15 * 60
 ANSWER_CACHE_TTL = 60 * 60
 PIPELINE_VERSION = "evidence-answer-v2"
 CITATION_PATTERN = re.compile(r"\[(\d+)\]")
+COMPENSATION_QUERY_PATTERN = re.compile(
+    r"薪资|薪酬|工资|月薪|时薪|年薪|薪水|salary|salaries|compensation|stipend|pay rate|remuneration",
+    re.I,
+)
+COMPENSATION_COMPARISON_PATTERN = re.compile(
+    r"最高|最低|哪家公司|哪家|哪个.*(?:高|低)|比较|排名|highest|lowest|which.*(?:highest|lowest)|"
+    r"compare|average|rank|most|least",
+    re.I,
+)
+COMPENSATION_AMOUNT_PATTERNS = (
+    re.compile(r"(?:[$€£¥]|S\$|US\$)\s?\d[\d,]*(?:\.\d+)?(?:\s?[kKmM])?", re.I),
+    re.compile(
+        r"\b(?:SGD|USD|EUR|GBP|MYR|INR|CNY)\s?\d[\d,]*(?:\.\d+)?(?:\s?[kKmM])?\b|"
+        r"\b\d[\d,]*(?:\.\d+)?\s?(?:SGD|USD|EUR|GBP|MYR|INR|CNY)\b",
+        re.I,
+    ),
+    re.compile(
+        r"(?:^|\n)\s*(?:salary|compensation|stipend|pay|薪资|薪酬|工资|月薪|时薪|年薪)\s*[:：]\s*\d[\d,]*(?:\.\d+)?|"
+        r"(?:\b(?:salary|compensation|stipend|pay)\b|薪资|薪酬|工资|月薪|时薪|年薪)[^。\n]{0,24}"
+        r"\d[\d,]*(?:\.\d+)?(?:\s?(?:k|m))?\s*(?:SGD|USD|EUR|GBP|MYR|INR|CNY|"
+        r"per\s+(?:hour|week|month|year)|hourly|monthly|annually|/h|/hr|/month|/year|每小时|每周|每月|每年)",
+        re.I,
+    ),
+)
 
 
 def _telemetry() -> dict[str, Any]:
@@ -291,6 +315,51 @@ def _refusal_result(route: QueryRoute) -> dict[str, Any]:
     }
 
 
+def _compensation_refusal_reason(question: str, jobs: list[dict[str, Any]]) -> str | None:
+    if not COMPENSATION_QUERY_PATTERN.search(question):
+        return None
+    jobs_with_amount = 0
+    for job in jobs:
+        text = "\n".join(str(chunk.get("content", "")) for chunk in job.get("chunks", []))
+        if any(pattern.search(text) for pattern in COMPENSATION_AMOUNT_PATTERNS):
+            jobs_with_amount += 1
+    if jobs_with_amount == 0:
+        return "岗位描述未提供具体薪资金额，知识库证据不足，无法判断。"
+    if COMPENSATION_COMPARISON_PATTERN.search(question) and jobs_with_amount < max(len(jobs), 2):
+        return (
+            f"仅 {jobs_with_amount}/{len(jobs)} 个相关岗位提供具体薪资金额，"
+            "其余岗位信息不全，无法可靠比较高低。"
+        )
+    return None
+
+
+def _compensation_refusal_result(
+    jobs: list[dict[str, Any]],
+    retrieval: dict[str, Any],
+    statistics: dict[str, Any] | None,
+    reason: str,
+) -> dict[str, Any]:
+    return {
+        "answer": f"本次检索到 {len(jobs)} 个相关岗位。{reason}",
+        "sources": _job_sources(jobs),
+        "intent": "refusal",
+        "route_reason": reason,
+        "statistics": statistics,
+        "analysis_scope": {
+            "scope_query": retrieval["scope_query"],
+            "candidate_job_count": retrieval["candidate_job_count"],
+            "analyzed_job_count": retrieval["analyzed_job_count"],
+        },
+        "ranked_jobs": jobs,
+        "retrieval_cache_hit": retrieval["cache_hit"],
+        "answer_validation": {
+            "status": "not_applicable",
+            "fallback_used": False,
+            "reason": "compensation_evidence_insufficient",
+        },
+    }
+
+
 def answer_question(
     session_factory,
     *,
@@ -309,7 +378,13 @@ def answer_question(
         query=question,
         filters=filters,
         top_k=top_k,
-        llm_model=f"{settings.deepseek_model}|{PIPELINE_VERSION}",
+        # Invalidate only cached compensation answers when this sufficiency
+        # policy changes, preserving unaffected answer-cache entries.
+        llm_model=(
+            f"{settings.deepseek_model}|{PIPELINE_VERSION}|comp-amount-v4"
+            if COMPENSATION_QUERY_PATTERN.search(question)
+            else f"{settings.deepseek_model}|{PIPELINE_VERSION}"
+        ),
     )
     if cache_enabled:
         cached = get_cached(session_factory, cache_key=cache_key, kind="answer", version=version)
@@ -358,6 +433,7 @@ def answer_question(
             session_factory,
             job_ids=[job["job_id"] for job in jobs],
         )
+        compensation_refusal_reason = _compensation_refusal_reason(question, jobs)
         if not jobs:
             result = {
                 "answer": "没有找到足够相关的岗位，知识库证据不足。",
@@ -372,6 +448,8 @@ def answer_question(
                 },
                 "retrieval_cache_hit": retrieval["cache_hit"],
             }
+        elif compensation_refusal_reason:
+            result = _compensation_refusal_result(jobs, retrieval, statistics, compensation_refusal_reason)
         else:
             answer = _generate(
                 llm_provider,
@@ -414,6 +492,7 @@ def answer_question(
         )
         telemetry["retrieval_ms"] = round((time.perf_counter() - retrieval_started) * 1000, 2)
         jobs = retrieval["jobs"]
+        compensation_refusal_reason = _compensation_refusal_reason(question, jobs)
         if not jobs:
             result = {
                 "answer": "知识库中没有找到足够的相关岗位信息。",
@@ -427,6 +506,8 @@ def answer_question(
                 },
                 "retrieval_cache_hit": retrieval["cache_hit"],
             }
+        elif compensation_refusal_reason:
+            result = _compensation_refusal_result(jobs, retrieval, None, compensation_refusal_reason)
         else:
             answer = _generate(
                 llm_provider,

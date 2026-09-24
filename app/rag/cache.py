@@ -34,15 +34,22 @@ def corpus_version(session_factory: sessionmaker) -> str:
             )
             or 0
         )
-        latest_job = session.scalar(select(func.max(Job.last_seen_at)))
+        active_content = session.execute(
+            select(Job.id, Job.content_hash)
+            .where(Job.is_active.is_(True))
+            .order_by(Job.id)
+        ).all()
         latest_chunk_hash = session.scalar(select(func.max(JobChunk.content_hash))) or ""
+    corpus_content_hash = hashlib.sha256(
+        "\n".join(f"{job_id}:{content_hash}" for job_id, content_hash in active_content).encode("utf-8")
+    ).hexdigest()
     return "|".join(
         [
             str(job_count),
             str(active_job_count),
             str(chunk_count),
             str(embedded_count),
-            latest_job.isoformat() if latest_job else "",
+            corpus_content_hash,
             str(latest_chunk_hash),
             settings.embedding_model_id,
         ]

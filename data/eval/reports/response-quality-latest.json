@@ -1,0 +1,493 @@
+{
+  "report_version": 2,
+  "generated_at": "2026-09-24T15:53:16.244093+00:00",
+  "duration_seconds": 1.89,
+  "corpus_version": "165|148|608|543|2026-09-20T05:43:29.448306|ff2b566c6194409ec6ec34edb2a9377223b577abac43807484057b2c59b61f5e|BAAI/bge-m3@refs/pr/130",
+  "model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-flash",
+  "status": "complete",
+  "blocked_reason": null,
+  "model_as_judge_warning": "生成模型与评估模型相同；语义分数用于诊断，不能替代独立校准。",
+  "sample_policy": "3 locked questions: 2 answerable holdout + 1 insufficient-evidence case",
+  "api_call_limit": 4,
+  "api_calls_succeeded": 1,
+  "judge_calls": 1,
+  "failed_samples": 0,
+  "usage": {
+    "prompt_tokens": 3053,
+    "completion_tokens": 405,
+    "total_tokens": 3458,
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 237
+  },
+  "cost_estimate": null,
+  "quality_summary": {
+    "answerable_questions": 2,
+    "mean_groundedness": 0.875,
+    "mean_answer_relevance_1_to_5": 5.0,
+    "mean_completeness_1_to_5": 4.5,
+    "expected_refusal_questions": 1,
+    "refusal_accuracy": 1.0
+  },
+  "rows": [
+    {
+      "id": "skills-05",
+      "category": "skills",
+      "split": "test",
+      "query": "Agentic AI 岗位对工具调用、工作流或自动化能力有哪些要求？",
+      "filters": {},
+      "answer": "## 分析范围\n本次检索聚焦“Agentic AI 对工具调用、工作流或自动化能力”的要求，共纳入 8 个最相关岗位，覆盖实习、工程师与高级工程师层级，公司包括 TE Connectivity、AMD、DADACONSULTANTS、Futurx Creatives、Razer、Infineon Technologies、SHIELD 等。\n\n## 核心要求\n- **工具调用 / Function Calling**：多个岗位明确要求熟悉 Tool Calling、Function Calling、MCP（Model Context Protocol）等能力，用于构建 AI Agent 与外部系统交互[3][4]。TE Connectivity 也把 tool use 列为 agentic AI 核心概念之一[1]。\n- **工作流编排**：要求使用 LangChain、LlamaIndex、AutoGen、CrewAI、LangGraph、Dify、Spring AI、OpenAI SDK 等框架设计、实现和评估 agentic AI workflows[1][3][6]。DADACONSULTANTS 明确提到“AI workflow orchestration”与“workflow orchestration for complex Agent systems”[3]。\n- **自动化与业务流程**：Infineon 高级岗位要求设计、构建和部署可自动化复杂业务流程的 production-ready AI agents 与 multi-agent systems[6]；Futurx Creatives 实习岗位要求设计面向销售、提案、内容策略等真实业务功能的 agent workflows，并接触覆盖 CRM、排程、内容与沟通工具的完整自动化栈[4]。\n- **多智能体协作**：TE Connectivity 要求理解 multi-agent coordination，并构建包含 tool-use、RAG、memory management、multi-step planning 的多智能体系统[1]；DADACONSULTANTS 与 Infineon 也分别提到 multi-agent collaboration 和 multi-agent ecosystems[3][6]。\n- **API 与系统集成**：AMD 要求理解 APIs、JSON、REST services 与软件集成[2]；TE Connectivity 要求将 AI agents 部署并集成到云环境（AWS、Azure 或 GCP），使用 APIs、容器化工具与基础 MLOps 实践[1]。\n\n## 加分项\n- 具备 MCP、LangChain 或类似 agent-building frameworks 经验为加分项[4]。\n- 了解 context engineering、memory management 或 Agent optimization 为优先条件[3]。\n- 有开源 AI 项目贡献或内部 AI 平台开发经验为加分项[3]。\n- 熟悉 token optimization 与 cost/latency tuning、LLM 输出评估框架或方法为加分项[8]。\n\n## 职责与技术栈\n- **职责**：设计、实现、评估 agentic AI workflows；构建与测试多智能体系统；开发可复用 AI 组件与框架；优化模型性能、延迟、可靠性与运营成本；设计评估、监控与可观测性框架[1][3][6]。\n- **技术栈**：Python 为主，部分岗位接受 Java、TypeScript、Go、C/C++[3]；框架包括 LangChain、LlamaIndex、AutoGen、CrewAI、LangGraph、Dify、Spring AI、OpenAI SDK[1][3][6]；RAG 与向量数据库（FAISS、Chroma、Weaviate）用于语义检索与知识检索[1][3]；云平台包括 AWS、Azure、GCP、Databricks[1][6]。\n\n## 结论限制\n本次证据主要来自 8 个岗位的公开描述，未覆盖所有 Agentic AI 岗位；部分岗位（如 AMD[2]）对工具调用与工作流的具体要求描述较少，仅提及 APIs、JSON、REST 与软件集成。若需更全面的能力要求，建议补充更多岗位证据。",
+      "intent": "evidence",
+      "sources": [
+        {
+          "number": 1,
+          "job_id": "a18cad1e69dd407a8f07a0ca18423904",
+          "title": "Agentic AI Intern (Hybrid) - Able to Commit 5 - 6 Months",
+          "company": "TE Connectivity",
+          "url": "https://www.linkedin.com/jobs/view/4456197065",
+          "sections": [
+            "required_qualifications",
+            "responsibilities",
+            "general"
+          ]
+        },
+        {
+          "number": 2,
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "title": "Agentic Ai Software Development Engineer",
+          "company": "AMD",
+          "url": "https://www.linkedin.com/jobs/view/4455860385",
+          "sections": [
+            "skills",
+            "work_arrangement"
+          ]
+        },
+        {
+          "number": 3,
+          "job_id": "0c207e0a055c4bf8a98ed4e9ffa4716e",
+          "title": "AI Agent Engineer (LLM Applications / RAG / Agentic AI, Multiple Opportunities!)",
+          "company": "DADACONSULTANTS PTE. LTD.",
+          "url": "https://www.mycareersfuture.gov.sg/job/4b05896701293675a1207bf17558c48e",
+          "sections": [
+            "responsibilities",
+            "preferred_qualifications",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 4,
+          "job_id": "a00ff431187547e9a5522ee42734aff2",
+          "title": "Software Engineer Intern — Agentic AI & Automation",
+          "company": "Futurx Creatives",
+          "url": "https://www.linkedin.com/jobs/view/4445448848",
+          "sections": [
+            "skills",
+            "experience",
+            "general"
+          ]
+        },
+        {
+          "number": 5,
+          "job_id": "6bbf66299d264051932ce2c8fcaeca87",
+          "title": "AI Engineer Intern",
+          "company": "Razer",
+          "url": "https://www.linkedin.com/jobs/view/4466039499",
+          "sections": [
+            "responsibilities",
+            "skills"
+          ]
+        },
+        {
+          "number": 6,
+          "job_id": "4870bbb0ba9f4ea6b09985c91a48e871",
+          "title": "Senior AI Engineer",
+          "company": "Infineon Technologies",
+          "url": "https://www.linkedin.com/jobs/view/4442710712",
+          "sections": [
+            "responsibilities",
+            "required_qualifications",
+            "experience"
+          ]
+        },
+        {
+          "number": 7,
+          "job_id": "54f72060eafc41dcba23243fd3a80d30",
+          "title": "Internship - Development of AI Knowledge Agent for Automotive Package R&D",
+          "company": "Infineon Technologies",
+          "url": "https://www.linkedin.com/jobs/view/4443923172",
+          "sections": [
+            "responsibilities",
+            "general",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 8,
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "title": "AI Engineer",
+          "company": "SHIELD",
+          "url": "https://www.linkedin.com/jobs/view/4322726898",
+          "sections": [
+            "required_qualifications",
+            "responsibilities",
+            "experience"
+          ]
+        }
+      ],
+      "statistics": null,
+      "answer_cache_hit": true,
+      "answer_latency_ms": 0.0,
+      "retrieval_latency_ms": 0.0,
+      "answer_usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      },
+      "expected_refusal": false,
+      "key_point_source": "expected_terms_proxy",
+      "groundedness": 1.0,
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim": "TE Connectivity 把 tool use 列为 agentic AI 核心概念之一",
+          "verdict": "supported",
+          "source_numbers": [
+            1
+          ],
+          "invalid_source_numbers": [],
+          "evidence_quote": "core agentic AI concepts such as tool use, memory, planning, and multi-agent coordination",
+          "evidence_quote_found": true
+        },
+        {
+          "claim": "要求使用 LangChain、LlamaIndex、AutoGen、CrewAI 等框架设计、实现和评估 agentic AI workflows",
+          "verdict": "supported",
+          "source_numbers": [
+            1
+          ],
+          "invalid_source_numbers": [],
+          "evidence_quote": "Design, implement, and evaluate agentic AI workflows using orchestration frameworks such as LangChain, LlamaIndex, AutoGen, or CrewAI",
+          "evidence_quote_found": true
+        }
+      ],
+      "answer_relevance": 5,
+      "completeness": 5,
+      "key_point_coverage": [
+        {
+          "point": "agent",
+          "covered": true
+        },
+        {
+          "point": "workflow",
+          "covered": true
+        },
+        {
+          "point": "automation",
+          "covered": true
+        }
+      ],
+      "refusal_correct": null,
+      "judge_reason": "",
+      "error": null
+    },
+    {
+      "id": "comparison-05",
+      "category": "comparison",
+      "split": "test",
+      "query": "新加坡 AI 岗位中，软件工程能力和纯研究能力哪个更常见？",
+      "filters": {
+        "location": "Singapore"
+      },
+      "answer": "## 分析范围\n本次检索到 8 个新加坡 AI 相关岗位，涵盖 Airwallex、NCS Group、OMNIVISION、AMD、SHIELD 等公司，岗位类型包括实习与全职，方向涉及 AI 软件工程、GenAI、Edge AI、Agentic AI、AI Engineer 等[1][2][3][4][5][6][7][8]。以下基于这些岗位文本，比较“软件工程能力”与“纯研究能力”的出现频率。\n\n## 核心要求\n从证据看，**软件工程能力明显比纯研究能力更常见**。\n\n- 多个岗位直接要求软件工程基础：如“strong software engineering fundamentals”[2]、“Computing and Object-Oriented Programming (OOP) Fundamentals”[1]、“Knowledge of software development practices, including Git, debugging, and code reviews”[3]、“Knowledge of version control (Git), debugging, and code review processes”[4]。\n- 岗位职责普遍围绕工程交付：如“design and implement AI-driven systems”[2]、“AI Agent Development”[3]、“Agentic workflow development”[4]、“develop new toolchain features”[5]、“Building LLM applications, chatbots, copilots, or AI assistants”[6]。\n- 工程实践被反复强调：CI/CD、MLOps、Kubernetes、Docker、Git、软件测试、现代开发工作流等出现在多个岗位中[2][5][6][8]。\n\n## 加分项\n与“纯研究能力”相关的表述较少，且多与工程结合：\n\n- NCS Group 的岗位提到“Research & Innovation — Explore emerging AI tools, frameworks, and best practices”[3]，但这是职责的一部分，并非纯研究岗位。\n- AMD 岗位提到“Creating data science and AI models and/or solutions”[8]，但同时要求“Practicing the software engineering best practices, e.g., CI/CD, MLOps”[8]。\n- 多个岗位要求“Basic understanding of AI/ML concepts, algorithms, and frameworks”[3][4]，属于基础理解层面，而非纯研究能力。\n\n## 职责与技术栈\n- 软件工程相关技术栈高频出现：Python[2][3][4][7]、Git[3][4][6][7]、CI/CD[5][6][8]、Docker/Kubernetes[6][8]、系统设计[2]、代码审查[3][4]、自动化测试[3][4]。\n- AI 相关技术栈多作为工程应用出现：LLM API、RAG、Agent 框架、向量数据库、MLOps 等[2][6][7][8]。\n- 纯研究导向的要求（如发表论文、独立研究项目、算法理论创新）在本次证据中**未出现**。\n\n## 结论限制\n- 本次仅基于 8 个岗位样本，不能代表新加坡 AI 岗位整体分布。\n- 样本以实习岗位为主[1][2][3][4][5][8]，全职岗位较少[6][7]，可能影响结论的普适性。\n- 证据中未出现明确要求“纯研究能力”的岗位，因此无法量化两者比例，只能判断在本次检索范围内软件工程能力更常见。\n- 若需更准确结论，建议扩大检索范围并纳入研究型岗位（如 Research Scientist、Research Engineer 等）。",
+      "intent": "evidence",
+      "sources": [
+        {
+          "number": 1,
+          "job_id": "ae3c476bf8114f8ca0a02adad0ccd802",
+          "title": "Software Engineer Intern (Summer 2027)",
+          "company": "Airwallex",
+          "url": "https://www.linkedin.com/jobs/view/4445083875",
+          "sections": [
+            "projects_research",
+            "education",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 2,
+          "job_id": "657e39dd9bc7409a8f167fe5e61d96b4",
+          "title": "Software Engineer Intern (Jan to Jun 2027)",
+          "company": "Airwallex",
+          "url": "https://www.linkedin.com/jobs/view/4451214388",
+          "sections": [
+            "skills",
+            "preferred_qualifications",
+            "projects_research"
+          ]
+        },
+        {
+          "number": 3,
+          "job_id": "ab43675a8aa043f6ad5da206fcfd3276",
+          "title": "[Uni - Jan till Jun 2027] AI Software Engineer Intern",
+          "company": "NCS Group",
+          "url": "https://www.linkedin.com/jobs/view/4447367776",
+          "sections": [
+            "skills",
+            "responsibilities",
+            "general"
+          ]
+        },
+        {
+          "number": 4,
+          "job_id": "91301a37c53d4f7ba57bb04f63492076",
+          "title": "[Uni - Jan till Jun 2027] GenAI Software Engineer Intern",
+          "company": "NCS Group",
+          "url": "https://www.linkedin.com/jobs/view/4453036802",
+          "sections": [
+            "skills",
+            "responsibilities",
+            "projects_research"
+          ]
+        },
+        {
+          "number": 5,
+          "job_id": "3765cd3263a64ec7981038b9ff47f8aa",
+          "title": "Software Engineer Intern, Edge AI - Toolchain",
+          "company": "OMNIVISION",
+          "url": "https://www.linkedin.com/jobs/view/4443474956",
+          "sections": [
+            "responsibilities",
+            "skills",
+            "education"
+          ]
+        },
+        {
+          "number": 6,
+          "job_id": "583d67c2fdcf4417bef21113441f6e52",
+          "title": "Agentic Ai Software Development Engineer",
+          "company": "AMD",
+          "url": "https://www.linkedin.com/jobs/view/4455860385",
+          "sections": [
+            "skills",
+            "education"
+          ]
+        },
+        {
+          "number": 7,
+          "job_id": "ac07809e2795409dad980e97eeb49281",
+          "title": "AI Engineer",
+          "company": "SHIELD",
+          "url": "https://www.linkedin.com/jobs/view/4322726898",
+          "sections": [
+            "experience",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 8,
+          "job_id": "35153e75f5c746ad913e0492b516bb6e",
+          "title": "AI-intrinsic CPU/GPU Product Development with Design-Test-Manufacturing Co-optimization Intern",
+          "company": "AMD",
+          "url": "https://www.linkedin.com/jobs/view/4456910041",
+          "sections": [
+            "responsibilities",
+            "education",
+            "required_qualifications"
+          ]
+        }
+      ],
+      "statistics": null,
+      "answer_cache_hit": true,
+      "answer_latency_ms": 0.0,
+      "retrieval_latency_ms": 0.0,
+      "answer_usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      },
+      "expected_refusal": false,
+      "key_point_source": "expected_terms_proxy",
+      "groundedness": 0.75,
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim": "多个岗位直接要求软件工程基础，如 strong software engineering fundamentals",
+          "verdict": "supported",
+          "source_numbers": [
+            2
+          ],
+          "invalid_source_numbers": [],
+          "evidence_quote": "Proficiency in Python, with strong software eng",
+          "evidence_quote_found": true
+        },
+        {
+          "claim": "证据中未出现明确要求纯研究能力的岗位",
+          "verdict": "partially_supported",
+          "source_numbers": [
+            1
+          ],
+          "invalid_source_numbers": [],
+          "evidence_quote": "You are excited about AI - You are enthusiastic about how AI is transforming software engineering",
+          "evidence_quote_found": true
+        }
+      ],
+      "answer_relevance": 5,
+      "completeness": 4,
+      "key_point_coverage": [
+        {
+          "point": "software",
+          "covered": true
+        },
+        {
+          "point": "research",
+          "covered": true
+        }
+      ],
+      "refusal_correct": null,
+      "judge_reason": "",
+      "error": null
+    },
+    {
+      "id": "insufficient-01",
+      "category": "insufficient_evidence",
+      "split": "refusal",
+      "query": "这些岗位中哪家公司提供最高的实习薪资？",
+      "filters": {
+        "job_type": "internship"
+      },
+      "answer": "本次检索到 8 个相关岗位，但岗位描述未提供可比较的具体薪资金额；知识库证据不足，无法判断薪资高低。",
+      "intent": "refusal",
+      "sources": [
+        {
+          "number": 1,
+          "job_id": "7b65264dff6844e88db646064a361773",
+          "title": "LLM/Multimodal AI Engineer Intern (TikTok Search) - 2027 Start (PhD)",
+          "company": "TikTok",
+          "url": "https://www.linkedin.com/jobs/view/4447688305",
+          "sections": [
+            "skills",
+            "responsibilities",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 2,
+          "job_id": "bfed7ee2ba5d4eeaac307a12489767c1",
+          "title": "Machine Learning Engineer Intern (Trust & Safety) - 2026 Start (PhD)",
+          "company": "TikTok",
+          "url": "https://www.linkedin.com/jobs/view/4279795678",
+          "sections": [
+            "experience",
+            "responsibilities"
+          ]
+        },
+        {
+          "number": 3,
+          "job_id": "ecfd05d2cbcf40e1992756f7b7045fd5",
+          "title": "Machine Learning Intern",
+          "company": "Cantina Labs",
+          "url": "https://www.linkedin.com/jobs/view/4462930444",
+          "sections": [
+            "projects_research",
+            "work_arrangement"
+          ]
+        },
+        {
+          "number": 4,
+          "job_id": "bbfe96865d3d41679612a27954a315a9",
+          "title": "Machine Learning Engineer Intern (Global E-Commerce, Search) - 2027 Start (PhD)",
+          "company": "TikTok",
+          "url": "https://www.linkedin.com/jobs/view/4447674739",
+          "sections": [
+            "responsibilities",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 5,
+          "job_id": "c402ceefbdf445c6baddfafbe5c8750b",
+          "title": "AI Intern | Embodied AI / Healthcare AI / Edge AI / Multimodal AI",
+          "company": "Amber Group",
+          "url": "https://www.linkedin.com/jobs/view/4457670657",
+          "sections": [
+            "preferred_qualifications",
+            "required_qualifications"
+          ]
+        },
+        {
+          "number": 6,
+          "job_id": "1386db1e279c49eab1e974ced88614ba",
+          "title": "Large Recommendation Model Algorithm Engineer Intern (Global E-Commerce) - 2027 Start (PhD)",
+          "company": "TikTok",
+          "url": "https://www.linkedin.com/jobs/view/4447679517",
+          "sections": [
+            "responsibilities"
+          ]
+        },
+        {
+          "number": 7,
+          "job_id": "9e9b98453673492196ea7f286425f272",
+          "title": "Machine Learning Engineer Intern (Global E-Commerce, User Growth) - 2027 Start",
+          "company": "TikTok",
+          "url": "https://www.linkedin.com/jobs/view/4447695196",
+          "sections": [
+            "experience",
+            "responsibilities"
+          ]
+        },
+        {
+          "number": 8,
+          "job_id": "1c1686afff5b4bfbaac01fd5e1f83425",
+          "title": "Algorithm Engineer Intern (Global Payment) - 2027 Start",
+          "company": "ByteDance",
+          "url": "https://www.linkedin.com/jobs/view/4448177277",
+          "sections": [
+            "required_qualifications",
+            "responsibilities",
+            "skills"
+          ]
+        }
+      ],
+      "statistics": null,
+      "answer_cache_hit": true,
+      "answer_latency_ms": 0.0,
+      "retrieval_latency_ms": 0.0,
+      "answer_usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0
+      },
+      "expected_refusal": true,
+      "key_point_source": "expected_terms_proxy",
+      "groundedness": 1.0,
+      "claim_count": 2,
+      "claims": [
+        {
+          "claim": "岗位描述未提供可比较的具体薪资金额",
+          "verdict": "supported",
+          "source_numbers": [
+            1
+          ],
+          "invalid_source_numbers": [],
+          "evidence_quote": "Job: Software Engineer Intern (Summer 2027)",
+          "evidence_quote_found": false
+        },
+        {
+          "claim": "知识库证据不足，无法判断薪资高低",
+          "verdict": "supported",
+          "source_numbers": [
+            1
+          ],
+          "invalid_source_numbers": [],
+          "evidence_quote": "Job: Software Engineer Intern (Summer 2027)",
+          "evidence_quote_found": false
+        }
+      ],
+      "answer_relevance": 5,
+      "completeness": 5,
+      "key_point_coverage": [],
+      "refusal_correct": true,
+      "judge_reason": "",
+      "error": null
+    }
+  ]
+}

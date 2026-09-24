@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import tempfile
@@ -22,8 +23,8 @@ from app.eval.tuning import load_splits
 from app.rag.cache import corpus_version
 from app.rag.lifecycle import DEFAULT_RETENTION_DAYS
 from app.rag.providers import EmbeddingProvider, LLMProvider, get_embedding_provider
-from app.rag.retrieval import ranked_job_search, scope_query
-from app.rag.service import answer_question
+from app.rag.retrieval import JOB_RANKING_WEIGHTS, ranked_job_search, scope_query
+from app.rag.service import PIPELINE_VERSION, answer_question
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -120,6 +121,19 @@ def _write_report(path: Path, report: dict[str, Any]) -> None:
             os.unlink(temp_name)
 
 
+def _file_sha256(path: str | Path | None) -> str | None:
+    if path is None:
+        return None
+    source = Path(path)
+    if not source.is_file():
+        return None
+    digest = hashlib.sha256()
+    with source.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def load_latest_quality_report(path: str | Path = DEFAULT_REPORT_PATH) -> dict[str, Any] | None:
     report_path = Path(path)
     if not report_path.exists():
@@ -158,16 +172,37 @@ def run_quality_evaluation(
     inactive_positive_labels = 0
     missing_evidence_chunks = 0
     annotated_answerable = 0
-    for annotation in annotations.values():
+    integrity_issues: list[dict[str, Any]] = []
+    question_ids = {question.id for question in questions}
+    orphaned_annotation_questions = sorted(set(annotations) - question_ids)
+    integrity_issues.extend(
+        {"type": "annotation_question_missing_from_dataset", "question_id": question_id}
+        for question_id in orphaned_annotation_questions
+    )
+    for question_id, annotation in annotations.items():
         relevance = _relevance(annotation)
-        orphaned_judgments += sum(job_id not in known_job_ids for job_id in relevance)
-        inactive_positive_labels += sum(
-            grade > 0 and job_id in known_job_ids and job_id not in active_job_ids
-            for job_id, grade in relevance.items()
-        )
-        missing_evidence_chunks += sum(
-            int(chunk_id) not in known_chunk_ids for chunk_id in annotation.get("evidence_chunk_ids", [])
-        )
+        for job_id in relevance:
+            if job_id not in known_job_ids:
+                orphaned_judgments += 1
+                integrity_issues.append(
+                    {"type": "judgment_job_missing_from_corpus", "question_id": question_id, "job_id": job_id}
+                )
+        for job_id, grade in relevance.items():
+            if grade > 0 and job_id in known_job_ids and job_id not in active_job_ids:
+                inactive_positive_labels += 1
+                integrity_issues.append(
+                    {"type": "positive_judgment_on_inactive_job", "question_id": question_id, "job_id": job_id}
+                )
+        for chunk_id in annotation.get("evidence_chunk_ids", []):
+            try:
+                chunk_exists = int(chunk_id) in known_chunk_ids
+            except (TypeError, ValueError):
+                chunk_exists = False
+            if not chunk_exists:
+                missing_evidence_chunks += 1
+                integrity_issues.append(
+                    {"type": "evidence_chunk_missing_from_corpus", "question_id": question_id, "chunk_id": chunk_id}
+                )
         if not annotation.get("should_refuse", False) and any(
             grade > 0 and job_id in active_job_ids for job_id, grade in relevance.items()
         ):
@@ -178,8 +213,10 @@ def run_quality_evaluation(
         "annotations": len(annotations),
         "annotated_answerable_questions": annotated_answerable,
         "orphaned_job_judgments": orphaned_judgments,
+        "orphaned_annotation_questions": len(orphaned_annotation_questions),
         "inactive_positive_labels": inactive_positive_labels,
         "missing_evidence_chunks": missing_evidence_chunks,
+        "integrity_issues": integrity_issues,
     }
 
     answerable_for_retrieval: list[tuple[EvalQuestion, dict[str, int]]] = []
@@ -336,6 +373,19 @@ def run_quality_evaluation(
             ) or 0
         )
     index_coverage = round(indexed_chunks / active_chunks, 4) if active_chunks else 1.0
+    embedding_config = getattr(provider, "config", None)
+    embedding_model = getattr(provider, "model_id", None) or getattr(
+        embedding_config, "embedding_model_id", "injected_provider"
+    )
+    component_files = (
+        "app/eval/quality.py",
+        "app/eval/metrics.py",
+        "app/rag/retrieval.py",
+        "app/rag/routing.py",
+        "app/rag/service.py",
+        "app/rag/chunking.py",
+        "app/rag/aggregate.py",
+    )
     operations_layer = {
         "active_jobs": active_jobs,
         "active_stale_jobs": active_stale_jobs,
@@ -363,6 +413,23 @@ def run_quality_evaluation(
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "duration_seconds": round(time.perf_counter() - started, 2),
         "corpus_version": corpus_version(session_factory),
+        "evaluation_snapshot": {
+            "questions_sha256": _file_sha256(question_path),
+            "annotations_sha256": _file_sha256(annotation_path),
+            "splits_sha256": _file_sha256(split_path),
+            "embedding_model": embedding_model,
+            "embedding_dimensions": getattr(embedding_config, "embedding_dimensions", None),
+            "embedding_device": getattr(embedding_config, "embedding_device", None),
+            "pipeline_version": PIPELINE_VERSION,
+            "component_sha256": {
+                source: _file_sha256(PROJECT_ROOT / source) for source in component_files
+            },
+            "top_k": top_k,
+            "candidate_jobs": 50,
+            "job_ranking_weights": JOB_RANKING_WEIGHTS,
+            "reranker_enabled": False,
+            "answer_provider": "deterministic_no_external_llm",
+        },
         "top_k": top_k,
         "thresholds": asdict(gates_config),
         "layers": {

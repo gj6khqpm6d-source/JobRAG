@@ -116,17 +116,48 @@ async function responseJson(response) {
 
 async function loadKnowledge() {
   try {
-    const [stats,index,jobs]=await Promise.all([
+    const [stats,index,jobs,autoScrape]=await Promise.all([
       fetch('/api/kb/stats').then(responseJson),
       fetch('/api/kb/index').then(responseJson),
-      fetch('/api/kb/jobs?limit=9').then(responseJson)
+      fetch('/api/kb/jobs?limit=9').then(responseJson),
+      fetch('/api/auto-scrape').then(responseJson)
     ]);
     $('#kb-stats').innerHTML=[['有效岗位',stats.active_jobs],['已失效',stats.expired_jobs],['可检索岗位',stats.searchable_jobs],['有完整描述',stats.jobs_with_description]].map(([label,value])=>`<div class="stat-card"><strong>${value||0}</strong><span>${label}</span></div>`).join('');
     $('#coverage-status').innerHTML=`<i style="width:${stats.description_coverage_percent||0}%"></i><span>岗位描述覆盖率 ${stats.description_coverage_percent||0}% · ${stats.jobs_with_description||0} / ${stats.total_jobs||0}</span>`;
-    $('#index-status').textContent=`${index.indexed_chunks} / ${index.total_chunks} 个知识片段已生成向量 · ${index.pending_chunks} 个待处理 · ${index.model}`;
+    const age=index.oldest_pending_hours?` · 最早待处理 ${index.oldest_pending_hours} 小时`:'';
+    const failed=index.failed_chunks?` · 失败 ${index.failed_chunks}（停止自动重试 ${index.exhausted_chunks}）`:'';
+    const alert=index.failed_chunks?'Embedding 有失败片段，请检查本地模型后手动重试。':((index.pending_chunks>100&&index.oldest_pending_hours>=24)||index.oldest_pending_hours>=72?'Embedding 积压时间过长，请检查本地模型运行状态。':'');
+    $('#index-status').textContent=`${index.indexed_chunks} / ${index.total_chunks} 个知识片段已生成向量 · ${index.pending_chunks} 个待处理${age}${failed} · ${index.model}${alert?` · 告警：${alert}`:''}`;
+    $('#retry-index-button').classList.toggle('hidden',!index.failed_chunks);
     $('#knowledge-jobs').innerHTML=jobs.items.length?jobs.items.map(job=>`<article class="knowledge-card"><strong>${escapeHtml(job.title)}</strong><p>${escapeHtml(job.company||'未知公司')} · ${escapeHtml(job.location||'地点未知')} · ${escapeHtml(siteLabels[job.source]||job.source)}</p>${job.job_url?`<a href="${escapeHtml(job.job_url_direct||job.job_url)}" target="_blank" rel="noopener">查看岗位 ↗</a>`:''}</article>`).join(''):'<div class="empty">知识库还没有岗位，请先完成一次搜索。</div>';
+    renderAutoScrapeStatus(autoScrape);
   } catch(err) { toast(err.message); }
 }
+
+function renderAutoScrapeStatus(payload) {
+  const config=payload.schedule||{}; const latest=payload.latest_run;
+  $('#auto-scrape-enabled').checked=Boolean(config.enabled);
+  $('#auto-scrape-term').value=config.search_term||'';
+  $('#auto-scrape-location').value=config.location||'';
+  $('#auto-scrape-sites').value=(config.sites||[]).join(', ');
+  $('#auto-scrape-job-type').value=config.job_type||'';
+  $('#auto-scrape-limit').value=config.results_per_site||10;
+  $('#auto-scrape-lookback').value=String(config.lookback_hours||72);
+  const next=payload.next_run_at?new Intl.DateTimeFormat('zh-SG',{timeZone:'Asia/Singapore',dateStyle:'medium',timeStyle:'short'}).format(new Date(payload.next_run_at)):'已暂停';
+  const summary=latest?`最近运行：${latest.status} · 找到 ${latest.results_found} 条，新增 ${latest.inserted}，更新 ${latest.updated}，未变 ${latest.unchanged} · 本次生成 ${latest.chunks_indexed} 个向量，仍待处理 ${latest.chunks_pending} 个${latest.error_summary?` · 错误：${latest.error_summary}`:''}`:'尚无运行记录。';
+  $('#auto-scrape-status').textContent=`下次执行：${next}（Asia/Singapore） · ${summary}`;
+}
+
+$('#auto-scrape-form').addEventListener('submit',async event=>{
+  event.preventDefault(); const button=$('#auto-scrape-save'); button.disabled=true;
+  try {
+    const sites=[...new Set($('#auto-scrape-sites').value.split(',').map(site=>site.trim().toLowerCase()).filter(Boolean))];
+    const config={enabled:$('#auto-scrape-enabled').checked,sites,search_term:$('#auto-scrape-term').value.trim(),location:$('#auto-scrape-location').value.trim(),job_type:$('#auto-scrape-job-type').value,results_per_site:Number($('#auto-scrape-limit').value),lookback_hours:Number($('#auto-scrape-lookback').value),max_index_chunks:100};
+    const result=await fetch('/api/auto-scrape',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(config)}).then(responseJson);
+    renderAutoScrapeStatus(result); toast('自动抓取设置已保存');
+  } catch(err) { toast(err.message); }
+  finally { button.disabled=false; }
+});
 
 $('#index-button').addEventListener('click',async()=>{
   const button=$('#index-button'); button.disabled=true; button.textContent='本地模型处理中…';
@@ -135,6 +166,15 @@ $('#index-button').addEventListener('click',async()=>{
     toast(`已生成 ${result.chunks_indexed} 个向量`); await loadKnowledge();
   } catch(err) { toast(err.message); }
   finally { button.disabled=false; button.textContent='生成本地向量'; }
+});
+
+$('#retry-index-button').addEventListener('click',async()=>{
+  const button=$('#retry-index-button'); button.disabled=true; button.textContent='正在手动恢复…';
+  try {
+    const result=await fetch('/api/kb/index?limit=100&retry_failed=true',{method:'POST'}).then(responseJson);
+    toast(result.error_summary?`恢复失败：${result.error_summary}`:`已手动重试 ${result.chunks_indexed} 个片段`); await loadKnowledge();
+  } catch(err) { toast(err.message); }
+  finally { button.disabled=false; button.textContent='手动重试失败片段'; }
 });
 
 $('#backfill-button').addEventListener('click',async()=>{

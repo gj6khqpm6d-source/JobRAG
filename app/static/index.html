@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>JobRAG · 私人岗位知识库</title>
-  <link rel="stylesheet" href="/static/styles.css?v=9">
+  <link rel="stylesheet" href="/static/styles.css?v=10">
 </head>
 <body>
   <header class="topbar">
@@ -104,8 +104,25 @@
       <section class="knowledge-section">
         <div class="knowledge-head">
           <div><p class="eyebrow">KNOWLEDGE BASE</p><h2>知识库状态</h2></div>
-          <div class="knowledge-actions"><button id="backfill-button" class="button accent" type="button">补全缺失描述</button><button id="index-button" class="button" type="button">生成本地向量</button></div>
+          <div class="knowledge-actions"><button id="retry-index-button" class="button hidden" type="button">手动重试失败片段</button><button id="backfill-button" class="button accent" type="button">补全缺失描述</button><button id="index-button" class="button" type="button">生成本地向量</button></div>
         </div>
+        <section class="automation-panel" aria-labelledby="auto-scrape-heading">
+          <div class="automation-heading">
+            <div><p class="eyebrow">DATA LIFECYCLE</p><h3 id="auto-scrape-heading">每日自动更新</h3></div>
+            <label class="automation-toggle"><input id="auto-scrape-enabled" type="checkbox"><span>启用每日抓取</span></label>
+          </div>
+          <p class="automation-note">每天新加坡时间 09:00 执行。默认每站最多 10 个岗位，回看最近 72 小时；相同岗位不会重复建向量，每次最多处理 100 个待嵌入片段。Embedding 失败最多自动重试 3 次，连续失败后停止自动重试，可手动恢复；不调用 DeepSeek。</p>
+          <form id="auto-scrape-form" class="automation-fields">
+            <label><span>职位关键词</span><input id="auto-scrape-term" required maxlength="255"></label>
+            <label><span>地点</span><input id="auto-scrape-location" required maxlength="255"></label>
+            <label><span>来源（最多 2 个，逗号分隔）</span><input id="auto-scrape-sites" required placeholder="linkedin, indeed"></label>
+            <label><span>职位类型</span><select id="auto-scrape-job-type"><option value="internship">实习</option><option value="fulltime">全职</option><option value="parttime">兼职</option><option value="contract">合同</option><option value="temporary">临时</option><option value="">不限</option></select></label>
+            <label><span>每来源最多结果</span><input id="auto-scrape-limit" type="number" min="1" max="20"></label>
+            <label><span>发布时间窗口（小时）</span><select id="auto-scrape-lookback"><option value="24">24 小时</option><option value="72">72 小时</option><option value="168">7 天</option></select></label>
+            <button id="auto-scrape-save" class="button accent" type="submit">保存设置</button>
+          </form>
+          <div id="auto-scrape-status" class="automation-status" aria-live="polite">读取调度状态中…</div>
+        </section>
         <div id="coverage-status" class="coverage-status"></div>
         <div id="index-status" class="index-status"></div>
         <div id="knowledge-jobs" class="knowledge-jobs"></div>
@@ -115,6 +132,6 @@
 
   <dialog id="detail"><button class="close" aria-label="关闭">×</button><div id="detail-content"></div></dialog>
   <div id="toast" class="toast hidden"></div>
-  <script src="/static/app.js?v=10"></script>
+  <script src="/static/app.js?v=13"></script>
 </body>
 </html>

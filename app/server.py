@@ -28,12 +28,19 @@ from app.eval.dataset import load_questions
 from app.eval.quality import load_latest_quality_report, run_quality_evaluation
 from app.rag.backfill import backfill_linkedin_descriptions
 from app.rag.contract import load_business_contract
-from app.rag.indexing import index_pending_chunks, index_stats, prepare_chunks
+from app.rag.indexing import IndexingResult, index_pending_chunks, index_stats, prepare_chunks
 from app.rag.lifecycle import DEFAULT_RETENTION_DAYS, expire_stale_jobs
 from app.rag.observability import operations_summary, prune_request_logs, record_rag_request
 from app.rag.providers import DeepSeekProvider, EmbeddingProviderError, LLMProviderError, get_embedding_provider
 from app.rag.retrieval import RetrievalFilters, hybrid_search
 from app.rag.service import answer_question, retrieve_question
+from app.scrape_scheduler import (
+    DailyScrapeScheduler,
+    get_schedule,
+    latest_run,
+    next_run_time,
+    save_schedule,
+)
 
 
 ROOT = Path(__file__).resolve().parent
@@ -140,6 +147,33 @@ class AnnotationRequest(BaseModel):
         return value.strip()
 
 
+class AutoScrapeScheduleRequest(BaseModel):
+    enabled: bool = True
+    sites: list[str] = Field(default_factory=lambda: ["linkedin"], min_length=1, max_length=2)
+    search_term: str = Field(default="AI Agent", min_length=2, max_length=255)
+    location: str = Field(default="Singapore", min_length=2, max_length=255)
+    job_type: Literal["", "fulltime", "parttime", "contract", "temporary", "internship"] = "internship"
+    results_per_site: int = Field(default=10, ge=1, le=20)
+    lookback_hours: int = Field(default=72, ge=1, le=168)
+    max_index_chunks: int = Field(default=100, ge=1, le=500)
+
+    @field_validator("sites")
+    @classmethod
+    def validate_scheduled_sites(cls, value: list[str]) -> list[str]:
+        cleaned = list(dict.fromkeys(value))
+        invalid = set(cleaned) - set(SUPPORTED_SITES)
+        if not cleaned or len(cleaned) > 2:
+            raise ValueError("自动抓取最多选择 2 个来源")
+        if invalid:
+            raise ValueError(f"不支持的网站: {', '.join(sorted(invalid))}")
+        return cleaned
+
+    @field_validator("search_term", "location")
+    @classmethod
+    def trim_schedule_strings(cls, value: str) -> str:
+        return value.strip()
+
+
 class TaskStore:
     def __init__(self) -> None:
         self._lock = threading.RLock()
@@ -175,6 +209,16 @@ class TaskStore:
             if error:
                 task["errors"][site] = error
 
+    def site_retry_done(self, task_id: str, site: str, records: list[dict[str, Any]], error: str | None) -> None:
+        with self._lock:
+            task = self._tasks[task_id]
+            task["completed_sites"].append(site)
+            task["results"].extend(records)
+            if error:
+                task["errors"][site] = error
+            else:
+                task["errors"].pop(site, None)
+
     def get(self, task_id: str) -> dict[str, Any]:
         with self._lock:
             task = self._tasks.get(task_id)
@@ -194,6 +238,7 @@ class TaskStore:
 
 store = TaskStore()
 runner = ThreadPoolExecutor(max_workers=4, thread_name_prefix="jobspy-task")
+scrape_scheduler: DailyScrapeScheduler | None = None
 
 
 @asynccontextmanager
@@ -202,7 +247,13 @@ async def lifespan(_app: FastAPI):
     prune_request_logs(SessionLocal)
     expire_stale_jobs(SessionLocal, retention_days=DEFAULT_RETENTION_DAYS)
     prepare_chunks(SessionLocal)
-    yield
+    if scrape_scheduler:
+        scrape_scheduler.start()
+    try:
+        yield
+    finally:
+        if scrape_scheduler:
+            scrape_scheduler.stop()
 
 
 app = FastAPI(title="JobRAG Local", version="1.1.0", lifespan=lifespan)
@@ -258,7 +309,14 @@ def scrape_site(site: str, request: SearchRequest) -> list[dict[str, Any]]:
     return dataframe_records(frame)
 
 
-def run_search(task_id: str, request: SearchRequest) -> None:
+def run_search(
+    task_id: str,
+    request: SearchRequest,
+    *,
+    index_limit: int = 5000,
+    index_backlog: bool = False,
+    retry_failed_sites: bool = False,
+) -> None:
     store.update(task_id, status="running")
     with ThreadPoolExecutor(max_workers=min(len(request.sites), 8)) as site_pool:
         futures = {site_pool.submit(scrape_site, site, request): site for site in request.sites}
@@ -270,19 +328,31 @@ def run_search(task_id: str, request: SearchRequest) -> None:
             except Exception as exc:  # one blocked site must not discard other results
                 store.site_done(task_id, site, [], f"{type(exc).__name__}: {exc}")
 
+    if retry_failed_sites:
+        failed_sites = list(store.get(task_id)["errors"])
+        for site in failed_sites:
+            try:
+                records = scrape_site(site, request)
+                store.site_retry_done(task_id, site, records, None)
+            except Exception as exc:
+                store.site_retry_done(task_id, site, [], f"retry failed: {type(exc).__name__}: {exc}")
+
     task = store.get(task_id)
+    ingestion_result = None
     if task["results"]:
         try:
             ingestion_result = upsert_jobs(SessionLocal, task["results"])
             lifecycle = expire_stale_jobs(SessionLocal, retention_days=DEFAULT_RETENTION_DAYS)
             chunking = prepare_chunks(SessionLocal, job_ids=ingestion_result.job_ids_to_sync)
-            indexing = index_pending_chunks(
-                SessionLocal,
-                get_embedding_provider(),
-                limit=5000,
-                batch_size=settings.embedding_batch_size,
-                job_ids=ingestion_result.job_ids_to_sync,
-            )
+            indexing = IndexingResult()
+            if not index_backlog:
+                indexing = index_pending_chunks(
+                    SessionLocal,
+                    get_embedding_provider(),
+                    limit=index_limit,
+                    batch_size=settings.embedding_batch_size,
+                    job_ids=ingestion_result.job_ids_to_sync,
+                )
             ingestion = ingestion_result.to_dict()
             ingestion["chunking"] = chunking.to_dict()
             ingestion["indexing"] = indexing.to_dict()
@@ -291,6 +361,38 @@ def run_search(task_id: str, request: SearchRequest) -> None:
         except Exception as exc:
             task["errors"]["knowledge_base"] = f"{type(exc).__name__}: {exc}"
             store.update(task_id, ingestion=None)
+    if index_backlog:
+        try:
+            provider = get_embedding_provider()
+            priority_indexing = IndexingResult()
+            if ingestion_result and ingestion_result.job_ids_to_sync:
+                priority_indexing = index_pending_chunks(
+                    SessionLocal,
+                    provider,
+                    limit=index_limit,
+                    batch_size=settings.embedding_batch_size,
+                    job_ids=ingestion_result.job_ids_to_sync,
+                )
+            remaining_limit = max(index_limit - priority_indexing.chunks_indexed, 0)
+            backlog_indexing = IndexingResult()
+            if remaining_limit:
+                backlog_indexing = index_pending_chunks(
+                    SessionLocal,
+                    provider,
+                    limit=remaining_limit,
+                    batch_size=settings.embedding_batch_size,
+                )
+            combined = IndexingResult(
+                chunks_indexed=priority_indexing.chunks_indexed + backlog_indexing.chunks_indexed,
+                batches=priority_indexing.batches + backlog_indexing.batches,
+            )
+            ingestion = dict(store.get(task_id).get("ingestion") or {})
+            ingestion["indexing"] = combined.to_dict()
+            ingestion["index_status"] = index_stats(SessionLocal)
+            store.update(task_id, ingestion=ingestion)
+        except Exception as exc:
+            task["errors"]["indexing"] = f"{type(exc).__name__}: {exc}"
+            store.update(task_id, ingestion=task.get("ingestion"))
     if task["results"] and task["errors"]:
         status = "partial"
     elif task["errors"]:
@@ -298,6 +400,48 @@ def run_search(task_id: str, request: SearchRequest) -> None:
     else:
         status = "completed"
     store.update(task_id, status=status, finished_at=datetime.now().isoformat(timespec="seconds"))
+
+
+def run_scheduled_scrape(config: dict[str, Any], _scheduled_for: datetime) -> dict[str, Any]:
+    request = SearchRequest(
+        sites=config["sites"],
+        search_term=config["search_term"],
+        location=config["location"],
+        job_type=config["job_type"],
+        results_wanted=config["results_per_site"],
+        hours_old=config["lookback_hours"],
+        country_indeed="singapore",
+        description_format="markdown",
+        linkedin_fetch_description=True,
+        verbose=0,
+    )
+    task = store.create(request)
+    run_search(
+        task["id"],
+        request,
+        index_limit=config["max_index_chunks"],
+        index_backlog=True,
+        retry_failed_sites=True,
+    )
+    task = store.get(task["id"])
+    ingestion = task.get("ingestion") or {}
+    indexing = ingestion.get("indexing") or {}
+    return {
+        "status": "completed_with_warnings" if indexing.get("error_summary") else task["status"],
+        "results_found": len(task["results"]),
+        "inserted": int(ingestion.get("inserted", 0)),
+        "updated": int(ingestion.get("updated", 0)),
+        "unchanged": int(ingestion.get("unchanged", 0)),
+        "chunks_indexed": int(indexing.get("chunks_indexed", 0)),
+        "chunks_pending": int((ingestion.get("index_status") or index_stats(SessionLocal)).get("pending_chunks", 0)),
+        "error_summary": "; ".join(filter(None, [
+            "; ".join(f"{site}: {error}" for site, error in task["errors"].items()),
+            indexing.get("error_summary"),
+        ])),
+    }
+
+
+scrape_scheduler = DailyScrapeScheduler(SessionLocal, run_scheduled_scrape)
 
 
 @app.get("/api/health")
@@ -334,6 +478,29 @@ def search_status(task_id: str, include_results: bool = False) -> dict[str, Any]
 def kb_stats() -> dict[str, Any]:
     with SessionLocal() as session:
         return knowledge_stats(session)
+
+
+@app.get("/api/auto-scrape")
+def auto_scrape_status() -> dict[str, Any]:
+    config = get_schedule(SessionLocal)
+    next_run = next_run_time(SessionLocal, config["enabled"])
+    return {
+        "schedule": config,
+        "next_run_at": next_run.isoformat(timespec="minutes") if next_run else None,
+        "latest_run": latest_run(SessionLocal),
+    }
+
+
+@app.put("/api/auto-scrape")
+def update_auto_scrape(request: AutoScrapeScheduleRequest) -> dict[str, Any]:
+    config = save_schedule(SessionLocal, request.model_dump())
+    scrape_scheduler.notify()
+    next_run = next_run_time(SessionLocal, config["enabled"])
+    return {
+        "schedule": config,
+        "next_run_at": next_run.isoformat(timespec="minutes") if next_run else None,
+        "latest_run": latest_run(SessionLocal),
+    }
 
 
 @app.post("/api/kb/lifecycle")
@@ -382,11 +549,18 @@ def kb_index_status() -> dict[str, Any]:
 
 
 @app.post("/api/kb/index")
-def kb_create_index(limit: int = 500, batch_size: int = 32) -> dict[str, Any]:
-    if limit < 1 or limit > 5000 or batch_size < 1 or batch_size > 100:
-        raise HTTPException(422, "limit 必须介于 1–5000，batch_size 必须介于 1–100")
+def kb_create_index(limit: int = 500, batch_size: int = 32, retry_failed: bool = False) -> dict[str, Any]:
+    max_limit = 100 if retry_failed else 5000
+    if limit < 1 or limit > max_limit or batch_size < 1 or batch_size > 100:
+        raise HTTPException(422, f"limit 必须介于 1–{max_limit}，batch_size 必须介于 1–100")
     try:
-        result = index_pending_chunks(SessionLocal, get_embedding_provider(), limit=limit, batch_size=batch_size)
+        result = index_pending_chunks(
+            SessionLocal,
+            get_embedding_provider(),
+            limit=limit,
+            batch_size=batch_size,
+            retry_failed=retry_failed,
+        )
     except EmbeddingProviderError as exc:
         raise HTTPException(503, str(exc)) from None
     return {**result.to_dict(), **index_stats(SessionLocal)}

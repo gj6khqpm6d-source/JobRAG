@@ -71,3 +71,62 @@ def test_description_change_only_rebuilds_and_reindexes_changed_job():
                 select(JobChunk.embedding).where(JobChunk.job_id == second_job_id)
             ).all()
         )
+
+
+def test_embedding_failure_retries_are_bounded_and_manual_recovery_works():
+    factory = sessions()
+    upsert_jobs(factory, [{
+        "id": "retry-1", "site": "linkedin", "title": "AI Engineer", "company": "Example",
+        "location": "Singapore", "job_url": "https://example/retry",
+        "description": "Requirements\n\nPython and machine learning.",
+    }])
+    prepare_chunks(factory)
+
+    class UnavailableEmbeddingProvider(EmbeddingProvider):
+        calls = 0
+
+        def embed(self, texts):
+            self.calls += 1
+            raise RuntimeError("simulated model unavailable")
+
+    broken = UnavailableEmbeddingProvider()
+    first = index_pending_chunks(factory, broken, batch_size=100)
+    second = index_pending_chunks(factory, broken, batch_size=100)
+    third = index_pending_chunks(factory, broken, batch_size=100)
+    blocked = index_pending_chunks(factory, broken, batch_size=100)
+
+    assert first.chunks_failed > 0
+    assert first.error_summary == "RuntimeError: simulated model unavailable"
+    assert broken.calls == 3
+    assert second.chunks_failed == first.chunks_failed
+    assert third.chunks_failed == first.chunks_failed
+    assert blocked.chunks_failed == 0
+    assert index_stats(factory)["exhausted_chunks"] == first.chunks_failed
+    assert index_pending_chunks(factory, FakeEmbeddingProvider(), batch_size=100, retry_failed=True).chunks_indexed == first.chunks_failed
+    assert index_stats(factory)["failed_chunks"] == 0
+    assert index_stats(factory)["pending_chunks"] == 0
+
+
+def test_successful_chunks_are_not_embedded_again():
+    factory = sessions()
+    upsert_jobs(factory, [{
+        "id": "once-1", "site": "linkedin", "title": "AI Engineer", "company": "Example",
+        "location": "Singapore", "job_url": "https://example/once",
+        "description": "Requirements\n\nPython and machine learning.",
+    }])
+    prepare_chunks(factory)
+
+    class CountingProvider(FakeEmbeddingProvider):
+        calls = 0
+
+        def embed(self, texts):
+            self.calls += 1
+            return super().embed(texts)
+
+    provider = CountingProvider()
+    result = index_pending_chunks(factory, provider, batch_size=100)
+    again = index_pending_chunks(factory, provider, batch_size=100)
+
+    assert result.chunks_indexed > 0
+    assert again.chunks_indexed == 0
+    assert provider.calls == 1

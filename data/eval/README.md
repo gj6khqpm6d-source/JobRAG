@@ -52,4 +52,14 @@ Run it from the admin page at `http://127.0.0.1:8000/eval`, or locally:
 .venv/bin/python -c "from app.eval.quality import run_quality_evaluation; run_quality_evaluation()"
 ```
 
+## Small-sample response-quality evaluation
+
+`app.eval.response_quality` evaluates two locked holdout answers and one insufficient-evidence answer with the configured DeepSeek model as both generator and judge. It reuses versioned answer-cache entries and sends all three cases to one judge request. A cold run therefore uses at most four model calls; cached answers reduce that count. To bound prompt and completion tokens, the judge receives only cited evidence (at most 2,400 characters per case), checks at most two claims and five key points per answer, and returns compact JSON. The report includes claim-level evidence checks, groundedness, answer relevance, completeness, refusal judgment, latency, and returned token usage. Since the same model generates and judges, treat semantic scores as diagnostic until a few cases are independently reviewed.
+
+```bash
+.venv/bin/python -m app.eval.response_quality
+```
+
+The default sample is capped at three questions and cannot read development questions. The report is written to `reports/response-quality-latest.json`. Key-point coverage uses human answer points when available, otherwise it labels `expected_terms` as a weak proxy.
+
 A failed gate is an actionable release blocker, not a runtime failure. The report preserves the failed question rows so retrieval or refusal behavior can be corrected and rerun against the same benchmark.

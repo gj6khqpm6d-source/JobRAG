@@ -83,6 +83,9 @@ class JobChunk(Base):
     embedding_provider: Mapped[str | None] = mapped_column(String(64))
     embedding_model: Mapped[str | None] = mapped_column(String(255))
     embedded_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    embedding_attempts: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    embedding_failed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    embedding_error: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     job: Mapped[Job] = relationship(back_populates="chunks")
@@ -139,3 +142,40 @@ class RAGRequestLog(Base):
     pipeline_version: Mapped[str | None] = mapped_column(String(80), index=True)
     corpus_version: Mapped[str | None] = mapped_column(String(255))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False, index=True)
+
+
+class AutoScrapeSchedule(Base):
+    """Persistent settings for the single local daily scrape schedule."""
+
+    __tablename__ = "auto_scrape_schedule"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
+    enabled: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    sites: Mapped[list[str]] = mapped_column(JSON, default=lambda: ["linkedin"], nullable=False)
+    search_term: Mapped[str] = mapped_column(String(255), default="AI Agent", nullable=False)
+    location: Mapped[str] = mapped_column(String(255), default="Singapore", nullable=False)
+    job_type: Mapped[str] = mapped_column(String(32), default="internship", nullable=False)
+    results_per_site: Mapped[int] = mapped_column(Integer, default=10, nullable=False)
+    lookback_hours: Mapped[int] = mapped_column(Integer, default=72, nullable=False)
+    max_index_chunks: Mapped[int] = mapped_column(Integer, default=100, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
+
+
+class AutoScrapeRun(Base):
+    """Durable status and bounded ingestion metrics for scheduled crawls."""
+
+    __tablename__ = "auto_scrape_runs"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True)
+    scheduled_for: Mapped[str] = mapped_column(String(64), unique=True, nullable=False, index=True)
+    status: Mapped[str] = mapped_column(String(24), nullable=False, index=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    settings_snapshot: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict, nullable=False)
+    results_found: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    inserted: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    updated: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    unchanged: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    chunks_indexed: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    chunks_pending: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    error_summary: Mapped[str | None] = mapped_column(Text)
